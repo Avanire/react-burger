@@ -1,6 +1,5 @@
 .ingredients {
-    /*заменить на flex*/
-    max-width: 617px;
+    flex: 0 1 617px;
 }
 
 .category_wrapper {
