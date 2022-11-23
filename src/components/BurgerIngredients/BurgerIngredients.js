@@ -13,8 +13,12 @@ const dataPropTypes = PropTypes.shape({
 })
 
 const Card = ({image, imageMobile, imageLarge, price, name, count}) => {
+    function counter() {
+
+    }
+
     return (
-        <section className={`${burgerIngredients.product}`}>
+        <section className={`${burgerIngredients.product}`} onClick={this.props.addToCart}>
             <span className="counter">{count && <Counter count={count} size="default" extraClass="m-1" />}</span>
             <div className={burgerIngredients.image}>
                 <picture>
