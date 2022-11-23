@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    justify-content: space-evenly;
+    height: 88px;
+    background: #1C1C21;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+}
+
+.item {
+    color: #8585AD;
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+    border-radius: 40px;
+}
+
+.item_active {
+    composes: item;
+    color: #F2F2F3;
+}
+
+.login {
+    composes: item;
+}
