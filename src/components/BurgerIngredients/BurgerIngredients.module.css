@@ -5,6 +5,7 @@
 .category_wrapper {
     height: 716px;
     overflow-y: scroll;
+    scrollbar-width: thin;
 }
 
 .container {

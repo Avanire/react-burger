@@ -15,43 +15,55 @@ const dataPropTypes = PropTypes.shape({
     image: PropTypes.string.isRequired,
 });
 
-class BurgerConstructor extends React.Component {
-
-    render() {
-        const total = this.props.ingredients.reduce((acc, i) => acc + i.price, 0) + (this.props.bun ? this.props.bun.price * 2 : 0);
+const BurgerConstructor = ({ingredients, bun, clearCart}) => {
+        const total = ingredients.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price * 2 : 0);
 
         return (
             <section className={`${burgerConstructor.burgerConstructor} mt-25`}>
                 <div className='ml-8'>
-                    {this.props.bun && <ConstructorElement
+                    {bun ? (<ConstructorElement
                         type="top"
-                        text={`${this.props.bun.name} (верх)`}
-                        price={this.props.bun.price}
-                        thumbnail={this.props.bun.image}
+                        text={`${bun.name} (верх)`}
+                        price={bun.price}
+                        thumbnail={bun.image}
                         isLocked={true}
-                    />}
+                    />) : (<div
+                        className={`${burgerConstructor.skeleton_constructor} constructor-element constructor-element_pos_top`}>
+                            <span className="constructor-element__row">
+                                <span className="constructor-element__text">Выберете булку (верх)</span>
+                            </span>
+                    </div>)}
                 </div>
-                <ul className={burgerConstructor.list}>
-                    {this.props.ingredients.length > 0 && this.props.ingredients.map((ingredient, index) =>
+                <ul className={`${burgerConstructor.list} custom-scroll`}>
+                    {ingredients.length > 0 ? (ingredients.map((ingredient, index) =>
                         <li key={index} className={`${burgerConstructor.list_item}`}>
                             <DragIcon type="primary"/>
                             <ConstructorElement
                                 text={ingredient.name}
                                 price={ingredient.price}
                                 thumbnail={ingredient.image}
-                                handleClose={() => this.props.clearCart(ingredient)}
+                                handleClose={() => clearCart(ingredient)}
                             />
                         </li>
-                    )}
+                    )) : (<div className={`${burgerConstructor.skeleton_constructor} constructor-element ml-8`}>
+                            <span className={`constructor-element__row`}>
+                                <span className="constructor-element__text">Выберите ингридиент</span>
+                            </span>
+                    </div>)}
                 </ul>
                 <div className='ml-8 mb-10'>
-                    {this.props.bun && <ConstructorElement
+                    {bun ? (<ConstructorElement
                         type="bottom"
-                        text={`${this.props.bun.name} (низ)`}
-                        price={this.props.bun.price}
-                        thumbnail={this.props.bun.image}
+                        text={`${bun.name} (низ)`}
+                        price={bun.price}
+                        thumbnail={bun.image}
                         isLocked={true}
-                    />}
+                    />) : (<div
+                        className={`${burgerConstructor.skeleton_constructor} constructor-element constructor-element_pos_bottom`}>
+                            <span className="constructor-element__row">
+                                <span className="constructor-element__text">Выберете булку (низ)</span>
+                            </span>
+                    </div>)}
                 </div>
                 <div className={burgerConstructor.checkout}>
                     <div className='mr-10'><span
@@ -60,7 +72,7 @@ class BurgerConstructor extends React.Component {
                 </div>
             </section>
         );
-    }
+
 }
 
 BurgerConstructor.propTypes = {

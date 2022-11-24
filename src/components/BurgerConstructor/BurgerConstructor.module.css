@@ -7,6 +7,7 @@
     list-style: none;
     overflow-y: auto;
     max-height: 464px;
+    scrollbar-width: thin;
 }
 
 .list_item {
@@ -22,5 +23,11 @@
 .checkout {
     display: flex;
     justify-content: end;
+    align-items: center;
+}
+
+.skeleton_constructor {
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
