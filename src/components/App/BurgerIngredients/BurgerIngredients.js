@@ -31,7 +31,7 @@ const Card = ({ingredient, addToCart, lockBun, setLockBun}) => {
             onClick={increment}
         >
             <span className="counter">{ingredient.count > 0 &&
-            <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
+                <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
             <div className={burgerIngredients.image}>
                 <picture>
                     <source srcSet={ingredient.imageMobile} media="(max-width: 375px)"/>
@@ -47,9 +47,25 @@ const Card = ({ingredient, addToCart, lockBun, setLockBun}) => {
     );
 }
 
+const Category = React.forwardRef((props, ref) => {
+    const [lockBun, setLockBun] = React.useState(false);
+
+    return (
+        <section ref={ref}>
+            <h2 className='text text_type_main-medium mb-6'>{props.children}</h2>
+            <div className={`${burgerIngredients.container} mb-10 ml-4`}>
+                {props.data.map(item => (
+                    <Card key={item._id} ingredient={item} addToCart={props.addToCart} lockBun={lockBun}
+                          setLockBun={setLockBun}/>
+                ))}
+            </div>
+        </section>
+    );
+});
+
 const BurgerIngredients = ({data, addToCart}) => {
     const [currentTab, setCurrentTab] = React.useState('rolls');
-    const [lockBun, setLockBun] = React.useState(false);
+
     const rollsTab = React.useRef(null);
     const fillingsTab = React.useRef(null);
     const sauceTab = React.useRef(null);
@@ -71,7 +87,7 @@ const BurgerIngredients = ({data, addToCart}) => {
     return (
         <section className={`${burgerIngredients.ingredients} mr-10`}>
             <h1 className="mt-10 mb-5 text text_type_main-large">Соберите бургер</h1>
-            <div style={{display: 'flex'}} className='mb-10'>
+            <div className={`${burgerIngredients.tab} mb-10`}>
                 <Tab value="rolls" active={currentTab === 'rolls'} onClick={(value) => scrollToRolls(value)}>
                     Булки
                 </Tab>
@@ -83,33 +99,9 @@ const BurgerIngredients = ({data, addToCart}) => {
                 </Tab>
             </div>
             <div className={`${burgerIngredients.category_wrapper} custom-scroll`}>
-                <section ref={rollsTab}>
-                    <h2 className='text text_type_main-medium mb-6'>Булки</h2>
-                    <div className={`${burgerIngredients.container} mb-10 ml-4`}>
-                        {data.filter(item => item.type === 'bun').map(item => (
-                            <Card key={item._id} ingredient={item} addToCart={addToCart} lockBun={lockBun}
-                                  setLockBun={setLockBun}/>
-                        ))}
-                    </div>
-                </section>
-                <section ref={fillingsTab}>
-                    <h2 className='text text_type_main-medium mb-6'>Начинки</h2>
-                    <div className={`${burgerIngredients.container} mb-10 ml-4`}>
-                        {data.filter(item => item.type === 'main').map(item => (
-                            <Card key={item._id} ingredient={item} addToCart={addToCart} lockBun={lockBun}
-                                  setLockBun={setLockBun}/>
-                        ))}
-                    </div>
-                </section>
-                <section ref={sauceTab}>
-                    <h2 className='text text_type_main-medium mb-6'>Соусы</h2>
-                    <div className={`${burgerIngredients.container} mb-10 ml-4`}>
-                        {data.filter(item => item.type === 'sauce').map(item => (
-                            <Card key={item._id} ingredient={item} addToCart={addToCart} lockBun={lockBun}
-                                  setLockBun={setLockBun}/>
-                        ))}
-                    </div>
-                </section>
+                <Category ref={rollsTab} data={data.filter(item => item.type === 'bun')} addToCart={addToCart}>Булки</Category>
+                <Category ref={fillingsTab} data={data.filter(item => item.type === 'main')} addToCart={addToCart}>Начинки</Category>
+                <Category ref={sauceTab} data={data.filter(item => item.type === 'sauce')} addToCart={addToCart}>Соусы</Category>
             </div>
         </section>
     );
