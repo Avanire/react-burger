@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import modal from './Modal.module.css';
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals");
 
@@ -29,15 +30,9 @@ class Modal extends React.Component {
             );
         }
 
-        const ModalOverlay = () => {
-            return (
-                <div className={modal.overlay} onClick={onClose}/>
-            );
-        }
-
         return ReactDOM.createPortal(
             (<>
-                <ModalOverlay/>
+                <ModalOverlay onClose={onClose}/>
                 <section className={`${modal.modal}`}>
                     <ModalHeader />
                     {children}
