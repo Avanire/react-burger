@@ -1,0 +1,34 @@
+.modal {
+    position: absolute;
+    z-index: 999;
+    top: 11.25em;
+    left: 30vw;
+    background: #1C1C21;
+    border: 1px solid rgba(76, 76, 255, 0.2);
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    min-width: 45em;
+    text-align: center;
+}
+
+.headers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    opacity: 60%;
+    z-index: 99;
+}
+
+.closeIcon {
+    position: absolute;
+    right: 0;
+}

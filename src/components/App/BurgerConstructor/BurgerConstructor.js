@@ -9,7 +9,7 @@ import burgerConstructor from './BurgerConstructor.module.css';
 import PropTypes from "prop-types";
 import dataPropTypes from '../../../utils/prop-types';
 
-const BurgerConstructor = ({cart, clearCart}) => {
+const BurgerConstructor = ({cart, clearCart, openModal}) => {
     const bun = cart.find(i => i.type === 'bun');
 
     const total = cart.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price * 2 : 0);
@@ -63,7 +63,7 @@ const BurgerConstructor = ({cart, clearCart}) => {
             <div className={burgerConstructor.checkout}>
                 <div className='mr-10'><span
                     className='mr-2 text text_type_digits-medium'>{total}</span><CurrencyIcon type="default"/></div>
-                <Button htmlType="button" type="primary" size="medium">Оформить заказ</Button>
+                <Button htmlType="button" type="primary" size="medium" onClick={openModal}>Оформить заказ</Button>
             </div>
         </section>
     );

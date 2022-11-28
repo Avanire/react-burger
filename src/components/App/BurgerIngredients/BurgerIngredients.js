@@ -4,12 +4,12 @@ import {Counter, CurrencyIcon, Tab} from '@ya.praktikum/react-developer-burger-u
 import PropTypes from 'prop-types';
 import dataPropTypes from '../../../utils/prop-types';
 
-const Card = ({ingredient, addToCart}) => {
+const Card = ({ingredient, addToCart, openModal}) => {
 
     return (
         <section
             className={`${burgerIngredients.product} mb-8`}
-            onClick={() => addToCart(ingredient)}
+            onClick={() => openModal(ingredient)}
         >
             <span className="counter">{ingredient.count > 0 &&
             <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
@@ -20,9 +20,10 @@ const Card = ({ingredient, addToCart}) => {
                     <img src={ingredient.image} alt={ingredient.name}/>
                 </picture>
             </div>
-            <div className={burgerIngredients.price}><span
-                className='text text_type_digits-default pr-2 mt-1 mb-1'>{ingredient.price}</span><CurrencyIcon
-                type="primary"/></div>
+            <div className={burgerIngredients.price} onClick={() => addToCart(ingredient)}>
+                <span className='text text_type_digits-default pr-2 mt-1 mb-1'>{ingredient.price}</span>
+                <CurrencyIcon type="primary"/>
+            </div>
             <div className={`text text_type_main-default ${burgerIngredients.name}`}>{ingredient.name}</div>
         </section>
     );
@@ -34,14 +35,14 @@ const Category = React.forwardRef((props, ref) => {
             <h2 className='text text_type_main-medium mb-6'>{props.children}</h2>
             <div className={`${burgerIngredients.container} mb-10 ml-4`}>
                 {props.data.map(item => (
-                    <Card key={item._id} ingredient={item} addToCart={props.addToCart}/>
+                    <Card key={item._id} ingredient={item} addToCart={props.addToCart} openModal={props.openModal}/>
                 ))}
             </div>
         </section>
     );
 });
 
-const BurgerIngredients = ({data, addToCart}) => {
+const BurgerIngredients = ({data, addToCart, openModal}) => {
     const [currentTab, setCurrentTab] = React.useState('rolls');
 
     const rollsTab = React.useRef(null);
@@ -78,11 +79,11 @@ const BurgerIngredients = ({data, addToCart}) => {
             </div>
             <div className={`${burgerIngredients.category_wrapper} custom-scroll`}>
                 <Category ref={rollsTab} data={data.filter(item => item.type === 'bun')}
-                          addToCart={addToCart}>Булки</Category>
+                          addToCart={addToCart} openModal={openModal}>Булки</Category>
                 <Category ref={fillingsTab} data={data.filter(item => item.type === 'main')}
-                          addToCart={addToCart}>Начинки</Category>
+                          addToCart={addToCart} openModal={openModal}>Начинки</Category>
                 <Category ref={sauceTab} data={data.filter(item => item.type === 'sauce')}
-                          addToCart={addToCart}>Соусы</Category>
+                          addToCart={addToCart} openModal={openModal}>Соусы</Category>
             </div>
         </section>
     );
