@@ -98,7 +98,7 @@ const App = () => {
     const handleCloseModalCard  = () => {
         setState({ ...state, modalIngredient: null, visibleCard: false });
     }
-    console.log(state.modalIngredient)
+
     return (
         <>
             <AppHeader/>

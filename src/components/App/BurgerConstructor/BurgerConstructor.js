@@ -11,8 +11,8 @@ import dataPropTypes from '../../../utils/prop-types';
 
 const BurgerConstructor = ({cart, clearCart, openModal}) => {
     const bun = cart.find(i => i.type === 'bun');
-
     const total = cart.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price * 2 : 0);
+
     return (
         <section className={`${burgerConstructor.burgerConstructor} mt-25`}>
             <div className='ml-8'>

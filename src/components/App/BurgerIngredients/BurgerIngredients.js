@@ -9,11 +9,10 @@ const Card = ({ingredient, addToCart, openModal}) => {
     return (
         <section
             className={`${burgerIngredients.product} mb-8`}
-            onClick={() => openModal(ingredient)}
         >
             <span className="counter">{ingredient.count > 0 &&
             <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
-            <div className={burgerIngredients.image}>
+            <div className={burgerIngredients.image} onClick={() => openModal(ingredient)}>
                 <picture>
                     <source srcSet={ingredient.imageMobile} media="(max-width: 375px)"/>
                     <source srcSet={ingredient.imageLarge} media="(max-width: 1920px)"/>
