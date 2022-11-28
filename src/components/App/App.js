@@ -9,9 +9,9 @@ const App = () => {
 
     const [state, setState] = React.useState({
         isLoading: false,
-        data: [],
-        bun: null,
-        ingredients: []
+        ingredients: [],
+        cart: [],
+        lock: false
     });
 
     React.useEffect(() => {
@@ -21,51 +21,57 @@ const App = () => {
             const response = await fetch(api);
             const data = await response.json();
 
-            setState({...state, isLoading: false, data: data.data});
+            setState({...state, isLoading: false, ingredients: data.data});
         }
 
         getData().catch(e => {
             //TODO сделать вывод ошибок
-            console.log(e.message());
+            console.log(e.message);
         });
+        // eslint-disable-next-line
     }, []);
 
-    const ingredientsCounter = (id, increment) => {
-        const ingredient = state.data.find(i => i._id === id);
 
-        ingredient.count = increment ? ingredient.count + 1 : ingredient.count - 1;
+    const ingredientsCounter = (id, increment, quantity = 1) => {
+        const ingredient = state.ingredients.find(i => i._id === id);
+
+        if (ingredient.count) {
+            ingredient.count = increment ? ingredient.count + quantity : ingredient.count - quantity;
+        } else {
+            ingredient.count = increment ? quantity : 0;
+        }
     }
 
     const handleAddToCart = (ingredient) => {
         if (ingredient.type === 'bun') {
-            this.setState({...state, bun: ingredient});
-        } else {
-            const newIngredientsArr = [...this.state.ingredients];
-            newIngredientsArr.push(ingredient);
+            if (!state.lock) {
+                ingredientsCounter(ingredient._id, true, 2);
+                const newCart = [...state.cart];
+                newCart.push(ingredient);
 
-            this.setState({
-                ...state,
-                ingredients: newIngredientsArr
-            });
+                setState({...state, cart: newCart, lock: true});
+            }
+        } else {
+            ingredientsCounter(ingredient._id, true);
+            const newCart = [...state.cart];
+            newCart.push(ingredient);
+
+            setState({...state, cart: newCart});
         }
 
-        ingredientsCounter(ingredient.id, true);
     }
 
     const handleClearCart = (ingredient) => {
-/*        const currentIngr = this.state.ingredients.findIndex(
+        ingredientsCounter(ingredient._id, false);
+
+        const currentIngr = state.cart.findIndex(
             (i) => i._id === ingredient._id
         );
 
-        const newIngredients = [...this.state.ingredients];
-        ingredient.count = ingredient.count - 1;
+        const newCart = [...state.cart];
+        newCart.splice(currentIngr, 1);
 
-        newIngredients.splice(currentIngr, 1);
-
-        this.setState(prevState => ({
-            ...prevState,
-            ingredients: newIngredients
-        }))*/
+        setState({...state, cart: newCart});
 
     }
 
@@ -77,10 +83,9 @@ const App = () => {
         <>
             <AppHeader/>
             <main className={app.main}>
-                <BurgerIngredients data={state.data} addToCart={handleAddToCart}/>
+                <BurgerIngredients data={state.ingredients} addToCart={handleAddToCart}/>
                 <BurgerConstructor
-                    bun={state.bun}
-                    ingredients={state.ingredients}
+                    cart={state.cart}
                     clearCart={handleClearCart}
                     checkout={handleCheckout}
                 />

@@ -2,41 +2,22 @@ import React from "react";
 import burgerIngredients from './BurgerIngredients.module.css';
 import {Counter, CurrencyIcon, Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import dataPropTypes from '../../../utils/prop-types';
 
-const dataPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-});
-
-const Card = ({ingredient, addToCart, lockBun, setLockBun}) => {
-
-    const increment = () => {
-        if (ingredient.type === 'bun' && !lockBun) {
-            ingredient.count = 2;
-            addToCart(ingredient);
-            setLockBun(true);
-        } else if (ingredient.type !== 'bun') {
-            ingredient.count = ingredient.count ? ingredient.count + 1 : 1;
-            addToCart(ingredient);
-        }
-    }
+const Card = ({ingredient, addToCart}) => {
 
     return (
         <section
             className={`${burgerIngredients.product} mb-8`}
-            onClick={increment}
+            onClick={() => addToCart(ingredient)}
         >
             <span className="counter">{ingredient.count > 0 &&
-                <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
+            <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
             <div className={burgerIngredients.image}>
                 <picture>
                     <source srcSet={ingredient.imageMobile} media="(max-width: 375px)"/>
                     <source srcSet={ingredient.imageLarge} media="(max-width: 1920px)"/>
-                    <img src={ingredient.image} alt={ingredient.name} style={{width: '100%'}}/>
+                    <img src={ingredient.image} alt={ingredient.name}/>
                 </picture>
             </div>
             <div className={burgerIngredients.price}><span
@@ -48,15 +29,12 @@ const Card = ({ingredient, addToCart, lockBun, setLockBun}) => {
 }
 
 const Category = React.forwardRef((props, ref) => {
-    const [lockBun, setLockBun] = React.useState(false);
-
     return (
         <section ref={ref}>
             <h2 className='text text_type_main-medium mb-6'>{props.children}</h2>
             <div className={`${burgerIngredients.container} mb-10 ml-4`}>
                 {props.data.map(item => (
-                    <Card key={item._id} ingredient={item} addToCart={props.addToCart} lockBun={lockBun}
-                          setLockBun={setLockBun}/>
+                    <Card key={item._id} ingredient={item} addToCart={props.addToCart}/>
                 ))}
             </div>
         </section>
@@ -99,9 +77,12 @@ const BurgerIngredients = ({data, addToCart}) => {
                 </Tab>
             </div>
             <div className={`${burgerIngredients.category_wrapper} custom-scroll`}>
-                <Category ref={rollsTab} data={data.filter(item => item.type === 'bun')} addToCart={addToCart}>Булки</Category>
-                <Category ref={fillingsTab} data={data.filter(item => item.type === 'main')} addToCart={addToCart}>Начинки</Category>
-                <Category ref={sauceTab} data={data.filter(item => item.type === 'sauce')} addToCart={addToCart}>Соусы</Category>
+                <Category ref={rollsTab} data={data.filter(item => item.type === 'bun')}
+                          addToCart={addToCart}>Булки</Category>
+                <Category ref={fillingsTab} data={data.filter(item => item.type === 'main')}
+                          addToCart={addToCart}>Начинки</Category>
+                <Category ref={sauceTab} data={data.filter(item => item.type === 'sauce')}
+                          addToCart={addToCart}>Соусы</Category>
             </div>
         </section>
     );
@@ -109,7 +90,7 @@ const BurgerIngredients = ({data, addToCart}) => {
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(dataPropTypes).isRequired
+    data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired
 }
 
 export default BurgerIngredients;

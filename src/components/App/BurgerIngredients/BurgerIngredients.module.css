@@ -28,6 +28,10 @@
     margin: 0 auto;
 }
 
+.image img {
+    width: 100%
+}
+
 .price {
     display: flex;
     align-items: center;
