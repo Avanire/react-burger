@@ -22,7 +22,7 @@ const BurgerConstructor = ({cart}) => {
 
     const total = React.useMemo(() => {
         return cart.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price * 2 : 0);
-    }, [cart]);
+    }, [cart, bun]);
 
     const ingredients = React.useMemo(() => {
         return cart.filter(c => c.type !== 'bun');

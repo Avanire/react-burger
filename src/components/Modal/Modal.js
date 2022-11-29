@@ -4,6 +4,7 @@ import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import modal from './Modal.module.css';
 import PropTypes from "prop-types";
 import {ESC_KEYCODE} from '../../utils/constans';
+import ModalOverlay from "../App/ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals");
 
@@ -17,20 +18,12 @@ ModalHeader.propTypes = {
     onClose: PropTypes.func.isRequired
 }
 
-const ModalOverlay = ({onClose}) => {
-    return (
-        <div className={modal.overlay} onClick={onClose}/>
-    );
-}
 
-ModalOverlay.propTypes = {
-    onClose: PropTypes.func.isRequired
-}
 
 const Modal = ({children, onClose}) => {
     const close = e => {
         if (e.keyCode === ESC_KEYCODE) {
-            this.props.onClose();
+            onClose();
         }
     }
 
