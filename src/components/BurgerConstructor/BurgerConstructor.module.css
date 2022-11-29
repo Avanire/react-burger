@@ -22,8 +22,11 @@
 
 .checkout {
     display: flex;
-    justify-content: end;
     align-items: center;
+}
+
+.sum {
+    margin-left: auto;
 }
 
 .skeleton_constructor {
