@@ -4,21 +4,9 @@ import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import modal from './Modal.module.css';
 import PropTypes from "prop-types";
 import {ESC_KEYCODE} from '../../utils/constans';
-import ModalOverlay from "../App/ModalOverlay/ModalOverlay";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot = document.getElementById("react-modals");
-
-const ModalHeader = ({onClose}) => {
-    return (
-        <div className={`${modal.closeIcon} pt-15 pr-10`}><CloseIcon type='primary' onClick={onClose}/></div>
-    );
-}
-
-ModalHeader.propTypes = {
-    onClose: PropTypes.func.isRequired
-}
-
-
 
 const Modal = ({children, onClose}) => {
     const close = e => {
@@ -39,7 +27,7 @@ const Modal = ({children, onClose}) => {
         (<>
             <ModalOverlay onClose={onClose}/>
             <section className={`${modal.modal}`}>
-                <ModalHeader onClose={onClose}/>
+                <div className={`${modal.closeIcon} pt-15 pr-10`}><CloseIcon type='primary' onClick={onClose}/></div>
                 {children}
             </section>
         </>),

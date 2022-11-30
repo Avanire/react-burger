@@ -3,14 +3,9 @@ import AppHeader from '../AppHeader/AppHeader';
 import app from './App.module.css';
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import {BURGER_API_URL} from '../../utils/constans'
+import {getIngredients} from "../../utils/burger-api";
 
 const App = () => {
-
-    const checkResponse = (res) => {
-        return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-    };
-
     const [stateApi, setStateApi] = React.useState({
         isLoading: false,
         ingredients: [],
@@ -23,8 +18,7 @@ const App = () => {
             isLoading: true
         }));
 
-        fetch(`${BURGER_API_URL}/ingredients`)
-            .then(res => checkResponse(res))
+        getIngredients()
             .then(data => {
                 setStateApi(prevState => ({
                     ...prevState,
