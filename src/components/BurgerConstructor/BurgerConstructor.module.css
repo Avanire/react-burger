@@ -1,0 +1,36 @@
+.burgerConstructor {
+    flex: 0 1 617px;
+}
+
+.list {
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+    max-height: 464px;
+    scrollbar-width: thin;
+}
+
+.list_item {
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+}
+
+.list_item:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+.checkout {
+    display: flex;
+    align-items: center;
+}
+
+.sum {
+    margin-left: auto;
+}
+
+.skeleton_constructor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

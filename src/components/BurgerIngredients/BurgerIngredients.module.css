@@ -1,0 +1,48 @@
+.ingredients {
+    flex: 0 1 617px;
+}
+
+.category_wrapper {
+    height: 716px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product {
+    flex: 1 0 272px;
+    max-width: 272px;
+    position: relative;
+}
+
+.product:nth-child(even) {
+    margin-left: calc(var(--offset-base-size) * 6);
+}
+
+.image {
+    width: 240px;
+    margin: 0 auto;
+}
+
+.image img {
+    width: 100%
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.name {
+    min-height: 48px;
+    text-align: center;
+}
+
+.tab {
+    display: flex;
+}
