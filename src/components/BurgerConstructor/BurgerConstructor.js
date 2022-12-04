@@ -6,34 +6,33 @@ import {
     DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css';
-import PropTypes from "prop-types";
-import dataPropTypes from '../../utils/prop-types';
 import Modal from "../Modal/Modal";
 import OrderDetail from "../OrderDetails/OrderDetails";
+import {useSelector} from "react-redux";
 
-const BurgerConstructor = ({cart}) => {
-    const [modal, setModal] = React.useState({
-        visible: false
-    });
+const BurgerConstructor = () => {
+    const cart = useSelector(state => state.burgerConstructor.constructorIngredients);
+
+    const [modal, setModal] = React.useState(false);
 
     const bun = React.useMemo(() => {
         return cart.find(i => i.type === 'bun');
     }, [cart]);
 
     const total = React.useMemo(() => {
-        return cart.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price * 2 : 0);
+        return cart.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price : 0);
     }, [cart, bun]);
 
     const ingredients = React.useMemo(() => {
         return cart.filter(c => c.type !== 'bun');
     }, [cart]);
 
-    const handleOpenModal = () => {
-        setModal({...modal, visible: true});
+    const handleCheckout = () => {
+        setModal(true);
     }
 
     const handleCloseModal = () => {
-        setModal({...modal, visible: false});
+        setModal(false);
     }
 
     return (
@@ -87,18 +86,14 @@ const BurgerConstructor = ({cart}) => {
                     <div className={`${burgerConstructor.sum} mr-10`}><span
                         className={`mr-2 text text_type_digits-medium`}>{total}</span><CurrencyIcon type="default"/>
                     </div>
-                    <Button htmlType="button" type="primary" size="medium" onClick={handleOpenModal}>Оформить
+                    <Button htmlType="button" type="primary" size="medium" onClick={handleCheckout}>Оформить
                         заказ</Button>
                 </div>
             </section>
-            {modal.visible && <Modal onClose={handleCloseModal}><OrderDetail/></Modal>}
+            {modal && <Modal onClose={handleCloseModal}><OrderDetail /></Modal>}
         </>
     );
 
-}
-
-BurgerConstructor.propTypes = {
-    cart: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
 }
 
 export default BurgerConstructor;

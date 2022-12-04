@@ -1,2 +1,16 @@
-export const ESC_KEYCODE = 27
-export const BURGER_API_URL = 'https://norma.nomoreparties.space/api'
+export const ESC_KEYCODE = 27;
+export const API_URL = 'https://norma.nomoreparties.space/api';
+
+export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
+export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
+export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+
+export const ADD_MODAL_INGREDIENT = 'ADD_MODAL_INGREDIENT';
+export const REMOVE_MODAL_INGREDIENT = 'REMOVE_MODAL_INGREDIENT';
+
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
+
+export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
+export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
+export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
