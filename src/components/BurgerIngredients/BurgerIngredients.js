@@ -71,6 +71,7 @@ const BurgerIngredients = () => {
 
     const [modal, setModal] = React.useState(false);
 
+    const scrollableBlock = React.useRef(null);
     const rollsTab = React.useRef(null);
     const fillingsTab = React.useRef(null);
     const sauceTab = React.useRef(null);
@@ -117,6 +118,20 @@ const BurgerIngredients = () => {
         setModal(false);
     }
 
+    const handleScroll = () => {
+        const yCoordinateRollsTab = rollsTab.current.getBoundingClientRect().y;
+        const yCoordinateFillingsTab = fillingsTab.current.getBoundingClientRect().y;
+        const yCoordinateSauceTab = sauceTab.current.getBoundingClientRect().y;
+
+        if (yCoordinateRollsTab < yCoordinateFillingsTab && yCoordinateRollsTab > 0) {
+            setCurrentTab('rolls');
+        } else if (yCoordinateFillingsTab < yCoordinateSauceTab && yCoordinateFillingsTab > 0) {
+            setCurrentTab('fillings');
+        } else  {
+            setCurrentTab('sauce');
+        }
+    }
+
     if (ingredientsRequest) {
         return (<p>Loading...</p>);
     } else if (ingredientsFailed) {
@@ -144,7 +159,7 @@ const BurgerIngredients = () => {
                             Соусы
                         </Tab>
                     </div>
-                    <div className={`${burgerIngredients.category_wrapper} custom-scroll`}>
+                    <div className={`${burgerIngredients.category_wrapper} custom-scroll`} ref={scrollableBlock} onScroll={handleScroll}>
                         <Category ref={rollsTab} data={bun}
                                   openModal={handleOpenModal}>Булки</Category>
                         <Category ref={fillingsTab} data={main}
