@@ -11,12 +11,22 @@ import {
     addModalIngredient,
     removeModalIngredient
 } from "../../services/actions/BurgerIngredients";
+import {useDrag} from "react-dnd";
 
 const Card = ({ingredient, openModal}) => {
+    const [{isDrag}, dragRef] = useDrag({
+        type: 'ingredient',
+        item: ingredient,
+        collect: monitor => ({
+            isDrag: monitor.isDragging()
+        })
+    });
+
     return (
-        <section
+        !isDrag && (<section
             className={`${burgerIngredients.product} mb-8`}
             onClick={() => openModal(ingredient)}
+            ref={dragRef}
         >
             <span className="counter">{ingredient.count > 0 &&
                 <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
@@ -32,7 +42,7 @@ const Card = ({ingredient, openModal}) => {
                 <CurrencyIcon type="primary"/>
             </div>
             <div className={`text text_type_main-default ${burgerIngredients.name}`}>{ingredient.name}</div>
-        </section>
+        </section>)
     );
 }
 
@@ -106,7 +116,7 @@ const BurgerIngredients = () => {
     const handleOpenModal = (ingredient) => {
         dispatch({
             type: addModalIngredient.type,
-            ingredient
+            payload: ingredient
         });
         setModal(true);
     }

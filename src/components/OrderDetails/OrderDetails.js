@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getOrder} from "../../services/actions/OrderDetails";
 
 const OrderDetail = () => {
-    const cart = useSelector(state => state.burgerConstructor.constructorIngredients);
+    const cart = useSelector(state => state.burgerIngredients.constructorIngredients);
     const ids = cart.map(item => item._id);
     const {number, orderRequest, orderFailed} = useSelector(state => state.orderDetails);
     const dispatch = useDispatch();
@@ -14,6 +14,7 @@ const OrderDetail = () => {
     useEffect(() => {
         dispatch(getOrder(ids));
     }, [dispatch])
+
     return (
         orderRequest ? (<p>Загрузка...</p>) : orderFailed ? (<p>Произошла ошибка. Попробуйте позже</p>) : (<section>
             <h1 className={`${orderDetail.title} text text_type_digits-large mb-8 mt-30`}>{number}</h1>

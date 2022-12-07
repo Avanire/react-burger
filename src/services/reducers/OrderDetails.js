@@ -20,7 +20,7 @@ export const orderDetailsReducer = createReducer(initialState, (builder) => {
             return {
                 orderRequest: false,
                 orderFailed: false,
-                number: action.order.number
+                number: action.payload
             }
         })
         .addCase(orderFailed, (state) => {

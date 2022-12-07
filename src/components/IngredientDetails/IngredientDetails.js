@@ -19,7 +19,6 @@ Detail.prototype = {
 const IngredientDetails = () => {
     const ingredient = useSelector(state => state.burgerIngredients.modalIngredient);
 
-
     return (
         <section>
             <div className={`${ingredientDetails.heading} text text_type_main-large mt-10 ml-10`}>Детали ингредиента
