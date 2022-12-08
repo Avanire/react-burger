@@ -1,10 +1,5 @@
 import React from "react";
-import {
-    ConstructorElement,
-    CurrencyIcon,
-    Button,
-    DragIcon
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
 import OrderDetail from "../OrderDetails/OrderDetails";
@@ -25,12 +20,12 @@ const BurgerConstructorElement = ({ingredient, handleRemove, findCard, moveCard}
 
     const [, sortElement] = useDrag({
         type: ingredient.type === 'bun' ? 'bun' : 'sortElement',
-        item: { id, originalIndex },
+        item: {id, originalIndex},
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
         end: (item, monitor) => {
-            const { id: droppedId, originalIndex } = item
+            const {id: droppedId, originalIndex} = item
             const didDrop = monitor.didDrop()
             if (!didDrop) {
                 moveCard(droppedId, originalIndex)
@@ -50,7 +45,7 @@ const BurgerConstructorElement = ({ingredient, handleRemove, findCard, moveCard}
 
     return (
         <li className={`${burgerConstructor.list_item}`} ref={(node) => sortElement(drop(node))}>
-            <DragIcon type="primary" />
+            <DragIcon type="primary"/>
             <ConstructorElement
                 text={ingredient.name}
                 price={ingredient.price}
@@ -132,11 +127,11 @@ const BurgerConstructor = () => {
 
     const moveCard = React.useCallback(
         (id, atIndex) => {
-            const { card, index } = findCard(id);
+            const {card, index} = findCard(id);
 
             dispatch({
                 type: changePositions.type,
-                payload: { card, index, atIndex }
+                payload: {card, index, atIndex}
             });
         },
         [findCard, dispatch],
@@ -145,6 +140,8 @@ const BurgerConstructor = () => {
     const [, sortArea] = useDrop({
         accept: 'sortElement'
     });
+
+    const disabledCheckoutBtn = !(bun && ingredients.length > 0);
 
     return (
         <>
@@ -164,9 +161,9 @@ const BurgerConstructor = () => {
                     </div>)}
                 </div>
                 <ul className={`${burgerConstructor.list} custom-scroll`} ref={sortArea}>
-                    {ingredients.length > 0 ? ingredients.map((ingredient, index) =>
+                    {ingredients.length > 0 ? ingredients.map((ingredient) =>
                         <BurgerConstructorElement
-                            key={index}
+                            key={ingredient.constructorId}
                             ingredient={ingredient}
                             handleRemove={handleRemove}
                             findCard={findCard}
@@ -196,8 +193,15 @@ const BurgerConstructor = () => {
                     <div className={`${burgerConstructor.sum} mr-10`}><span
                         className={`mr-2 text text_type_digits-medium`}>{total}</span><CurrencyIcon type="default"/>
                     </div>
-                    <Button htmlType="button" type="primary" size="medium" onClick={handleCheckout}>Оформить
-                        заказ</Button>
+                    <Button
+                        htmlType="button"
+                        type="primary"
+                        size="medium"
+                        onClick={handleCheckout}
+                        disabled={disabledCheckoutBtn}
+                    >
+                        Оформить заказ
+                    </Button>
                 </div>
             </section>
             {modal && <Modal onClose={handleCloseModal}><OrderDetail/></Modal>}

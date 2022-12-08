@@ -7,8 +7,8 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getBurgerIngredients,
     addModalIngredient,
+    getBurgerIngredients,
     removeModalIngredient
 } from "../../services/actions/BurgerIngredients";
 import {useDrag} from "react-dnd";
@@ -137,7 +137,7 @@ const BurgerIngredients = () => {
             setCurrentTab('rolls');
         } else if (yCoordinateFillingsTab < yCoordinateSauceTab && yCoordinateFillingsTab > 0) {
             setCurrentTab('fillings');
-        } else  {
+        } else {
             setCurrentTab('sauce');
         }
     }
@@ -169,7 +169,8 @@ const BurgerIngredients = () => {
                             Соусы
                         </Tab>
                     </div>
-                    <div className={`${burgerIngredients.category_wrapper} custom-scroll`} ref={scrollableBlock} onScroll={handleScroll}>
+                    <div className={`${burgerIngredients.category_wrapper} custom-scroll`} ref={scrollableBlock}
+                         onScroll={handleScroll}>
                         <Category ref={rollsTab} data={bun}
                                   openModal={handleOpenModal}>Булки</Category>
                         <Category ref={fillingsTab} data={main}
@@ -178,7 +179,7 @@ const BurgerIngredients = () => {
                                   openModal={handleOpenModal}>Соусы</Category>
                     </div>
                 </section>
-                {modal && <Modal onClose={handleCloseModal}><IngredientDetails /></Modal>}
+                {modal && <Modal onClose={handleCloseModal}><IngredientDetails/></Modal>}
             </>
         );
     }

@@ -1,12 +1,16 @@
 import {createReducer} from '@reduxjs/toolkit';
 import uuid from 'react-uuid';
 import {
+    addIngredient,
+    addIngredientBun,
+    addModalIngredient,
+    burgerIngredientsFailed,
     burgerIngredientsRequest,
     burgerIngredientsSuccess,
-    burgerIngredientsFailed,
-    addModalIngredient,
+    changePositions,
+    clearIngredients,
+    removeIngredient,
     removeModalIngredient,
-    addIngredient, removeIngredient, addIngredientBun, changePositions,
 } from '../actions/BurgerIngredients';
 
 const initialState = {
@@ -108,6 +112,13 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
             return {
                 ...state,
                 constructorIngredients: newCart
+            }
+        })
+        .addCase(clearIngredients, (state) => {
+            return {
+                ...state,
+                constructorIngredients: [],
+                constructorBun: null
             }
         })
 });

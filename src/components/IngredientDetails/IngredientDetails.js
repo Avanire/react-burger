@@ -11,7 +11,7 @@ const Detail = ({name, value}) => {
     );
 }
 
-Detail.prototype = {
+Detail.propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired
 }
