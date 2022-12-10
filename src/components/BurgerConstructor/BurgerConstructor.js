@@ -3,16 +3,11 @@ import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/
 import burgerConstructor from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
 import OrderDetail from "../OrderDetails/OrderDetails";
-import {useDispatch, useSelector} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
-import {
-    addIngredient,
-    addIngredientBun,
-    changePositions,
-    removeIngredient
-} from "../../services/actions/BurgerIngredients";
 import PropTypes from "prop-types";
 import dataPropTypes from "../../utils/prop-types";
+import {modelBurgerIngredients} from "../../models/BurgerIngredients";
+import {useStore} from "effector-react";
 
 const BurgerConstructorElement = ({ingredient, handleRemove, findCard, moveCard}) => {
     const originalIndex = findCard(ingredient.constructorId).index;
@@ -64,11 +59,14 @@ BurgerConstructorElement.propTypes = {
 };
 
 const BurgerConstructor = () => {
-    const cart = useSelector(state => state.burgerIngredients.constructorIngredients);
-    const bun = useSelector(state => state.burgerIngredients.constructorBun);
-    const dispatch = useDispatch();
-
     const [modal, setModal] = React.useState(false);
+    const cart = useStore(modelBurgerIngredients.$constructorIngredients);
+    const bun = useStore(modelBurgerIngredients.$constructorBun);
+    const allIngredients = bun ? [...cart, bun] : [...cart];
+
+    const ingredientsIds = React.useMemo(() => {
+        return allIngredients.map(item => item._id);
+    }, [allIngredients]);
 
     const total = React.useMemo(() => {
         return cart ? cart.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price * 2 : 0) : 0;
@@ -94,24 +92,15 @@ const BurgerConstructor = () => {
     });
 
     const addBun = (ingredient) => {
-        dispatch({
-            type: addIngredientBun.type,
-            payload: ingredient
-        })
+        modelBurgerIngredients.addIngredientBun(ingredient);
     }
 
     const addIngredients = (ingredient) => {
-        dispatch({
-            type: addIngredient.type,
-            payload: ingredient
-        })
+        modelBurgerIngredients.addIngredient(ingredient);
     }
 
     const handleRemove = (ingredient) => {
-        dispatch({
-            type: removeIngredient.type,
-            payload: ingredient
-        })
+        modelBurgerIngredients.removeIngredient(ingredient);
     }
 
     const findCard = React.useCallback(
@@ -129,12 +118,9 @@ const BurgerConstructor = () => {
         (id, atIndex) => {
             const {card, index} = findCard(id);
 
-            dispatch({
-                type: changePositions.type,
-                payload: {card, index, atIndex}
-            });
+            modelBurgerIngredients.changePositions({card, index, atIndex});
         },
-        [findCard, dispatch],
+        [findCard],
     )
 
     const [, sortArea] = useDrop({
@@ -204,7 +190,7 @@ const BurgerConstructor = () => {
                     </Button>
                 </div>
             </section>
-            {modal && <Modal onClose={handleCloseModal}><OrderDetail/></Modal>}
+            {modal && <Modal onClose={handleCloseModal}><OrderDetail ingredientsIds={ingredientsIds}/></Modal>}
         </>
     );
 

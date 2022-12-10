@@ -1,6 +1,7 @@
 import ingredientDetails from './IngredientDetails.module.css';
 import PropTypes from "prop-types";
-import {useSelector} from "react-redux";
+import {useStore} from "effector-react";
+import {modelBurgerIngredients} from "../../models/BurgerIngredients";
 
 const Detail = ({name, value}) => {
     return (
@@ -17,11 +18,12 @@ Detail.propTypes = {
 }
 
 const IngredientDetails = () => {
-    const ingredient = useSelector(state => state.burgerIngredients.modalIngredient);
+    const ingredient = useStore(modelBurgerIngredients.$modalIngredient);
 
     return (
         <section>
-            <div className={`${ingredientDetails.heading} text text_type_main-large mt-10 ml-10`}>Детали ингредиента
+            <div className={`${ingredientDetails.heading} text text_type_main-large mt-10 ml-10`}>
+                Детали ингредиента
             </div>
             <div className='mb-4'><img src={ingredient.image_large} alt=""/></div>
             <div className='text text_type_main-medium mb-8'>{ingredient.name}</div>

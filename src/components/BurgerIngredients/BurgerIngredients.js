@@ -5,13 +5,9 @@ import PropTypes from 'prop-types';
 import dataPropTypes from '../../utils/prop-types';
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch, useSelector} from "react-redux";
-import {
-    addModalIngredient,
-    getBurgerIngredients,
-    removeModalIngredient
-} from "../../services/actions/BurgerIngredients";
 import {useDrag} from "react-dnd";
+import {useStore} from "effector-react";
+import {modelBurgerIngredients} from '../../models/BurgerIngredients';
 
 const Card = ({ingredient, openModal}) => {
     const [{isDrag}, dragRef] = useDrag({
@@ -72,12 +68,13 @@ Category.propTypes = {
 
 const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = React.useState('rolls');
-    const {ingredients, ingredientsRequest, ingredientsFailed} = useSelector(state => state.burgerIngredients);
-    const dispatch = useDispatch();
+    const ingredients = useStore(modelBurgerIngredients.$ingredients);
+    const ingredientsRequest = useStore(modelBurgerIngredients.$isIngredientsLoading);
+    const ingredientsFailed = useStore(modelBurgerIngredients.$isIngredientsFailed);
 
     useEffect(() => {
-        dispatch(getBurgerIngredients());
-    }, [dispatch]);
+        modelBurgerIngredients.burgerIngredientsRequest();
+    }, []);
 
     const [modal, setModal] = React.useState(false);
 
@@ -114,18 +111,13 @@ const BurgerIngredients = () => {
     }
 
     const handleOpenModal = (ingredient) => {
-        dispatch({
-            type: addModalIngredient.type,
-            payload: ingredient
-        });
+        modelBurgerIngredients.addModalIngredient(ingredient);
         setModal(true);
     }
 
     const handleCloseModal = () => {
-        dispatch({
-            type: removeModalIngredient.type
-        })
         setModal(false);
+        modelBurgerIngredients.removeModalIngredient();
     }
 
     const handleScroll = () => {
