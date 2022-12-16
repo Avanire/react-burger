@@ -1,4 +1,4 @@
-import React from "react";
+import {useCallback, useMemo, useState} from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import dataPropTypes from "../../utils/prop-types";
 import {modelBurgerIngredients} from "../../models/BurgerIngredients";
 import {useStore} from "effector-react";
+import {$constructorBun, $constructorIngredients} from "../../models/BurgerIngredients/store";
 
 const BurgerConstructorElement = ({ingredient, handleRemove, findCard, moveCard}) => {
     const originalIndex = findCard(ingredient.constructorId).index;
@@ -59,20 +60,18 @@ BurgerConstructorElement.propTypes = {
 };
 
 const BurgerConstructor = () => {
-    const [modal, setModal] = React.useState(false);
-    const cart = useStore(modelBurgerIngredients.$constructorIngredients);
-    const bun = useStore(modelBurgerIngredients.$constructorBun);
+    const [modal, setModal] = useState(false);
+    const cart = useStore($constructorIngredients);
+    const bun = useStore($constructorBun);
     const allIngredients = bun ? [...cart, bun] : [...cart];
 
-    const ingredientsIds = React.useMemo(() => {
-        return allIngredients.map(item => item._id);
-    }, [allIngredients]);
+    const ingredientsIds = useMemo(() => allIngredients.map(item => item._id), [allIngredients]);
 
-    const total = React.useMemo(() => {
+    const total = useMemo(() => {
         return cart ? cart.reduce((acc, i) => acc + i.price, 0) + (bun ? bun.price * 2 : 0) : 0;
     }, [cart, bun]);
 
-    const ingredients = React.useMemo(() => {
+    const ingredients = useMemo(() => {
         return cart ? cart.filter(c => c.type !== 'bun') : [];
     }, [cart]);
 
@@ -103,7 +102,7 @@ const BurgerConstructor = () => {
         modelBurgerIngredients.removeIngredient(ingredient);
     }
 
-    const findCard = React.useCallback(
+    const findCard = useCallback(
         (id) => {
             const card = cart.filter((c) => c.constructorId === id)[0];
             return {
@@ -114,7 +113,7 @@ const BurgerConstructor = () => {
         [cart],
     )
 
-    const moveCard = React.useCallback(
+    const moveCard = useCallback(
         (id, atIndex) => {
             const {card, index} = findCard(id);
 
