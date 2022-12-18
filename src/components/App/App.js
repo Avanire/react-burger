@@ -1,22 +1,34 @@
 import React from 'react';
-import AppHeader from '../AppHeader/AppHeader';
-import app from './App.module.css';
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import {HTML5Backend} from 'react-dnd-html5-backend';
-import {DndProvider} from 'react-dnd';
+import {Route, Switch} from 'react-router-dom';
+import {ForgotPasswordPage, HomePage, LoginPage, ProfilePage, RegistrationPage} from '../../pages';
+import AppHeader from "../AppHeader/AppHeader";
+import ResetPasswordPage from "../../pages/ResetPassword";
 
 const App = () => {
 
     return (
         <>
             <AppHeader/>
-            <main className={app.main}>
-                <DndProvider backend={HTML5Backend}>
-                    <BurgerIngredients/>
-                    <BurgerConstructor/>
-                </DndProvider>
-            </main>
+            <Switch>
+                <Route path="/" exact>
+                    <HomePage/>
+                </Route>
+                <Route path="/login" exact>
+                    <LoginPage/>
+                </Route>
+                <Route path='/register' exact>
+                    <RegistrationPage/>
+                </Route>
+                <Route path='/forgot-password' exact>
+                    <ForgotPasswordPage/>
+                </Route>
+                <Route path='/reset-password' exact>
+                    <ResetPasswordPage/>
+                </Route>
+                <Route path='/profile' exact>
+                    <ProfilePage/>
+                </Route>
+            </Switch>
         </>
     );
 
