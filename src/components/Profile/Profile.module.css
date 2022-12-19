@@ -32,3 +32,8 @@
     composes: link;
     color: #F2F2F3;
 }
+
+.buttonBlock {
+    display: flex;
+    justify-content: end;
+}

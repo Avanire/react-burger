@@ -22,7 +22,7 @@ const AppHeader = () => {
             <Link to='/'><Logo/></Link>
             <span className={`${appHeader.login} text text_type_main-default`}><
                 ProfileIcon type="secondary"/>
-                <NavLink exact to='/login' activeClassName={appHeader.item_active} className={`${appHeader.item} pl-2`}>Личный кабинет</NavLink>
+                <NavLink exact to='/profile' activeClassName={appHeader.item_active} className={`${appHeader.item} pl-2`}>Личный кабинет</NavLink>
             </span>
         </header>
     );
