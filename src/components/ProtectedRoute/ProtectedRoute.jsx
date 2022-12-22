@@ -2,23 +2,20 @@ import {Redirect, Route} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getUser} from "../../services/actions/Auth";
-import {getCookie} from "../../utils/utils";
 
-const ProtectedRoute = ({ children, ...rest }) => {
+const ProtectedRoute = ({children, ...rest}) => {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.auth.user);
-    const token = getCookie('token');
+    const isAuth = useSelector(state => state.auth.isAuth);
 
     useEffect(() => {
-        if (token) {
-            dispatch(getUser(`Bearer ${token}`));
-        }
-    }, [dispatch, token]);
+        dispatch(getUser());
+    }, [dispatch]);
 
     return (
         <Route
             {...rest}
-            render={() => user ? (children) : (<Redirect to='/login' />)}
+            render={({location}) => isAuth ? (children) : (
+                <Redirect to={{pathname: '/login', state: {from: location}}}/>)}
         />
     );
 }

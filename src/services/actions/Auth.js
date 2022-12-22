@@ -1,20 +1,23 @@
 import {createAction} from "@reduxjs/toolkit";
 import {
     AUTH_FAILED,
-    AUTH_REQUEST, GET_USER,
+    AUTH_REQUEST, FORGOT_PASSWORD,
+    GET_USER,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REFRESH_TOKEN_SUCCESS,
-    REGISTRATION_SUCCESS, UPDATE_USER
+    REGISTRATION_SUCCESS, RESET_PASSWORD_ENTER, RESET_PASSWORD_SUCCESS,
+    UPDATE_USER
 } from '../../utils/constans';
 import {
+    forgotPasswordRequest,
     getUserRequest,
     loginRequest,
     logoutRequest,
     refreshTokenRequest,
-    registrationRequest, updateUserRequest
+    registrationRequest, resetPasswordRequest,
+    updateUserRequest
 } from "../../utils/burger-api";
-import {getCookie} from "../../utils/utils";
 
 export const authRequest = createAction(AUTH_REQUEST);
 export const authFailed = createAction(AUTH_FAILED);
@@ -30,6 +33,11 @@ export const logoutSuccess = createAction(LOGOUT_SUCCESS);
 export const getUserSuccess = createAction(GET_USER);
 
 export const updateUserSuccess = createAction(UPDATE_USER);
+
+export const forgotPasswordSuccess = createAction(FORGOT_PASSWORD);
+export const resetPasswordEnter = createAction(RESET_PASSWORD_ENTER);
+
+export const resetPasswordSuccess = createAction(RESET_PASSWORD_SUCCESS);
 
 export const registration = (email, password, name) => {
     return function (dispatch) {
@@ -85,13 +93,13 @@ export const login = (email, password) => {
     }
 }
 
-export const refreshToken = (token) => {
+export const refreshToken = () => {
     return function (dispatch) {
         dispatch({
             type: authRequest.type
         });
 
-        refreshTokenRequest(token).then(res => {
+        refreshTokenRequest().then(res => {
             if (res && res.success) {
                 dispatch({
                     type: refreshTokenSuccess.type,
@@ -111,13 +119,13 @@ export const refreshToken = (token) => {
     }
 }
 
-export const logout = (token) => {
+export const logout = () => {
     return function (dispatch) {
         dispatch({
             type: authRequest.type
         });
 
-        logoutRequest(token).then(res => {
+        logoutRequest().then(res => {
             if (res && res.success) {
                 dispatch({
                     type: logoutSuccess.type
@@ -135,13 +143,13 @@ export const logout = (token) => {
     }
 }
 
-export const getUser = (token) => {
+export const getUser = () => {
     return function (dispatch) {
         dispatch({
             type: authRequest.type
         });
 
-        getUserRequest(token).then(res => {
+        getUserRequest().then(res => {
             if (res && res.success) {
                 dispatch({
                     type: getUserSuccess.type,
@@ -153,9 +161,8 @@ export const getUser = (token) => {
                 });
             }
         }).catch((e) => {
-            if (e.message === 'jwt expired') {
-                const token = getCookie('refreshToken');
-                dispatch(refreshToken(token));
+            if (e.message === 'jwt expired' || e.message === 'jwt malformed') {
+                dispatch(refreshToken());
             } else {
                 dispatch({
                     type: authFailed.type
@@ -165,17 +172,66 @@ export const getUser = (token) => {
     }
 }
 
-export const updateUser = (email, password, name, token) => {
+export const updateUser = (email, password, name) => {
+    return function (dispatch) {
+        dispatch({
+            type: authRequest.type
+        });
+
+        updateUserRequest(email, password, name).then(res => {
+            if (res && res.success) {
+                dispatch({
+                    type: updateUserSuccess.type,
+                    user: res.user
+                });
+            } else {
+                dispatch({
+                    type: authFailed.type
+                });
+            }
+        }).catch(() => {
+            dispatch({
+                type: authFailed.type
+            });
+        });
+    }
+}
+
+export const forgotPassword = (email) => {
     return function(dispatch) {
         dispatch({
             type: authRequest.type
         });
 
-        updateUserRequest(email, password, name, token).then(res => {
+        forgotPasswordRequest(email).then(res => {
             if (res && res.success) {
                 dispatch({
-                    type: updateUserSuccess.type,
-                    user: res.user
+                    type: forgotPasswordSuccess.type,
+                    payload: res.success
+                });
+            } else {
+                dispatch({
+                    type: authFailed.type
+                });
+            }
+        }).catch(() => {
+            dispatch({
+                type: authFailed.type
+            });
+        });
+    }
+}
+
+export const resetPassword = (password, code) => {
+    return function (dispatch) {
+        dispatch({
+            type: authRequest.type
+        });
+
+        resetPasswordRequest(password, code).then(res => {
+            if (res && res.success) {
+                dispatch({
+                    type: resetPasswordSuccess.type
                 });
             } else {
                 dispatch({

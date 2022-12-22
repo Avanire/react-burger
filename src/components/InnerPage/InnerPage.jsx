@@ -1,23 +1,15 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styles from "./InnerPage.module.css";
-import {useDispatch, useSelector} from "react-redux";
-import {getCookie} from "../../utils/utils";
-import {getUser} from "../../services/actions/Auth";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const InnerPage = ({children}) => {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.auth.user);
-    const token = getCookie('token');
-
-    useEffect(() => {
-        if (token) {
-            dispatch(getUser(`Bearer ${token}`));
-        }
-    }, [dispatch, token]);
+    const isAuth = useSelector(state => state.auth.isAuth);
+    const history = useHistory();
+    const prevLink = history.location.state?.from.pathname || '/';
 
     return (
-        user ? (<Redirect to='/' />) : (<section className={styles.wrapper}>
+        isAuth ? (<Redirect to={{pathname: `${prevLink}`}} />) : (<section className={styles.wrapper}>
             <div className={styles.container}>
                 {children}
             </div>

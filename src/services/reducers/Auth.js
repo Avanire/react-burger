@@ -1,21 +1,25 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {
     authFailed,
-    authRequest,
+    authRequest, forgotPasswordSuccess,
     getUserSuccess,
     loginSuccess,
     logoutSuccess,
     refreshTokenSuccess,
-    registrationSuccess,
+    registrationSuccess, resetPasswordEnter, resetPasswordSuccess,
     updateUserSuccess
 } from '../actions/Auth';
-import {deleteCookie, setCookie} from "../../utils/utils";
+import {deleteCookie, getCookie, setCookie} from "../../utils/utils";
 
 const initialState = {
-    user: null,
-    accessToken: null,
+    user: {
+        name: '',
+        email: ''
+    },
+    isAuth: !!getCookie('token'),
     request: false,
-    failed: false
+    failed: false,
+    isResetPass: false
 }
 
 export const authReducer = createReducer(initialState, builder => {
@@ -39,11 +43,11 @@ export const authReducer = createReducer(initialState, builder => {
             setCookie('token', action.accessToken.split('Bearer ')[1]);
 
             return {
+                ...state,
                 user: {
                     email: action.user.email,
                     name: action.user.name
                 },
-                accessToken: action.accessToken,
                 request: false,
                 failed: false
             }
@@ -53,13 +57,14 @@ export const authReducer = createReducer(initialState, builder => {
             setCookie('token', action.accessToken.split('Bearer ')[1]);
 
             return {
+                ...state,
                 user: {
                     email: action.user.email,
                     name: action.user.name
                 },
-                accessToken: action.accessToken,
                 request: false,
-                failed: false
+                failed: false,
+                isAuth: true
             }
         })
         .addCase(refreshTokenSuccess, (state, action) => {
@@ -68,7 +73,6 @@ export const authReducer = createReducer(initialState, builder => {
 
             return {
                 ...state,
-                accessToken: action.accessToken,
                 request: false,
                 failed: false
             }
@@ -78,10 +82,14 @@ export const authReducer = createReducer(initialState, builder => {
             deleteCookie('refreshToken');
 
             return {
-                user: null,
-                accessToken: '',
+                user: {
+                    name: '',
+                    email: ''
+                },
+                isAuth: !!getCookie('token'),
                 request: false,
-                failed: false
+                failed: false,
+                isResetPass: false
             }
         })
         .addCase(getUserSuccess, (state, action) => {
@@ -104,6 +112,23 @@ export const authReducer = createReducer(initialState, builder => {
                 },
                 request: false,
                 failed: false
+            }
+        })
+        .addCase(forgotPasswordSuccess, (state, action) => {
+            return {
+                ...state,
+                isResetPass: action.payload
+            }
+        })
+        .addCase(resetPasswordEnter, (state) => {
+            return {
+                ...state,
+                isResetPass: false
+            }
+        })
+        .addCase(resetPasswordSuccess, (state) => {
+            return {
+                ...state
             }
         })
 });

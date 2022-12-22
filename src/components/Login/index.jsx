@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {login} from "../../services/actions/Auth";
 
@@ -9,12 +9,13 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [passwordShow, setPasswordShow] = useState(false);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const onPassIconClick = () => {
         setPasswordShow(!passwordShow);
     }
 
-    const handleClick = (e) => {
+    const handleEnter = (e) => {
         e.preventDefault();
         dispatch(login(email, password));
     }
@@ -35,14 +36,14 @@ const Login = () => {
                    onIconClick={onPassIconClick}
                    icon={passwordShow ? 'HideIcon' : 'ShowIcon'}
             />
-            <Button htmlType="button" type="primary" size="large" extraClass='mb-20' onClick={handleClick}>
+            <Button htmlType="button" type="primary" size="large" extraClass='mb-20' onClick={handleEnter}>
                 Войти
             </Button>
             <p className='text text_type_main-default text_color_inactive'>
                 Вы — новый пользователь? <Link to='/register' className='link'>Зарегистрироваться</Link>
             </p>
             <p className='text text_type_main-default text_color_inactive'>
-                Забыли пароль? <Link to='/forgot-password' className='link'>Восстановить пароль</Link>
+                Забыли пароль? <Link to={{ pathname:'/forgot-password', from: history.location.state?.from }} className='link'>Восстановить пароль</Link>
             </p>
         </>
     );

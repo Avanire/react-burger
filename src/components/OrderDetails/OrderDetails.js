@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import doneImg from '../../images/done.svg';
 import orderDetail from './OrderDetail.module.css';
-import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from "react-redux";
 import {getOrder} from "../../services/actions/OrderDetails";
 
@@ -26,14 +25,6 @@ const OrderDetail = () => {
             </div>
         </section>)
     );
-}
-
-OrderDetail.propTypes = {
-    order: PropTypes.shape({
-        isLoading: PropTypes.bool.isRequired,
-        hasError: PropTypes.bool.isRequired,
-        number: PropTypes.number.isRequired
-    })
 }
 
 export default OrderDetail;

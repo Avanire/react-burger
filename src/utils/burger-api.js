@@ -1,4 +1,5 @@
 import {API_URL} from "./constans";
+import {getCookie} from "./utils";
 
 const checkResponse = (res) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -40,10 +41,10 @@ export const forgotPasswordRequest = (email) => {
     return postRequest('password-reset', body);
 }
 
-export const resetPasswordRequest = (password, token) => {
+export const resetPasswordRequest = (password, code) => {
     const body = {
         "password": password,
-        "token": token
+        "token": code
     }
 
     return postRequest('password-reset/reset', body);
@@ -68,35 +69,35 @@ export const loginRequest = (email, password) => {
     return postRequest('auth/login', body);
 }
 
-export const refreshTokenRequest = (token) => {
+export const refreshTokenRequest = () => {
     const body = {
-        "token": token
+        "token": getCookie('refreshToken')
     }
 
     return postRequest('auth/token', body);
 }
 
-export const logoutRequest = (token) => {
+export const logoutRequest = () => {
     const body = {
-        "token": token
+        "token": getCookie('refreshToken')
     }
 
     return postRequest('auth/logout', body);
 }
 
-export const getUserRequest = (token) => {
+export const getUserRequest = () => {
     const options = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': 'Bearer ' + getCookie('token')
         }
     }
 
     return getRequest(`${API_URL}/auth/user`, options);
 }
 
-export const updateUserRequest = (email, password, name, token) => {
+export const updateUserRequest = (email, password, name) => {
     const body = {
         "email": email,
         "password": password,
@@ -107,7 +108,7 @@ export const updateUserRequest = (email, password, name, token) => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': 'Bearer ' + getCookie('token')
         },
         body: JSON.stringify(body)
     }
