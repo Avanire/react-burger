@@ -19,6 +19,7 @@ const ProfileMenu = () => {
                     <NavLink activeClassName={styles.linkActive}
                              className={`${styles.link} text text_type_main-medium`}
                              to='/profile'
+                             exact={true}
                     >
                         Профиль
                     </NavLink>
@@ -27,6 +28,7 @@ const ProfileMenu = () => {
                     <NavLink activeClassName={styles.linkActive}
                              className={`${styles.link} text text_type_main-medium`}
                              to='/profile/orders'
+                             exact={true}
                     >
                         История заказов
                     </NavLink>

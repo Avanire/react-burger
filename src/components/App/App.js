@@ -4,7 +4,7 @@ import {
     ForgotPasswordPage,
     HomePage,
     IngredientDetailsPage,
-    LoginPage,
+    LoginPage, ProfileOrdersPage,
     ProfilePage,
     RegistrationPage
 } from '../../pages';
@@ -45,7 +45,7 @@ const App = () => {
                     <ProfilePage/>
                 </ProtectedRoute>
                 <ProtectedRoute path='/profile/orders' exact={true}>
-
+                    <ProfileOrdersPage/>
                 </ProtectedRoute>
             </Switch>
             <ToastContainer delay={3000} />
