@@ -48,3 +48,7 @@
 .tab {
     display: flex;
 }
+
+.preloader {
+    text-align: center;
+}

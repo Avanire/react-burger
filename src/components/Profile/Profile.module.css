@@ -35,5 +35,10 @@
 
 .buttonBlock {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
+}
+
+.preloader {
+    position: relative;
+    left: 50%;
 }

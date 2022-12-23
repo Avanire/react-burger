@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import React, {useEffect} from "react";
 import {getBurgerIngredients} from "../../services/actions/BurgerIngredients";
+import {GridLoader} from "react-spinners";
 
 const Detail = ({name, value}) => {
     return (
@@ -31,27 +32,32 @@ const IngredientDetails = () => {
         }
     }, [dispatch, ingredients]);
 
-    if (ingredientsRequest) {
-        return (<p>Loading...</p>);
-    } else {
-        return (
-            <section className={ingredientDetails.productWrapper}>
-                <div className={ingredientDetails.product}>
-                    <div className={`${ingredientDetails.heading} text text_type_main-large mt-10 ml-10`}>
-                        Детали ингредиента
+    return (
+        <section className={ingredientDetails.productWrapper}>
+            <div className={ingredientDetails.product}>
+                {ingredientsRequest ? (
+                    <div className='mt-10'>
+                        <GridLoader color="#8a37d1" />
                     </div>
-                    <div className='mb-4'><img src={ingredient?.image_large} alt=""/></div>
-                    <div className='text text_type_main-medium mb-8'>{ingredient?.name}</div>
-                    <div className={`${ingredientDetails.list} mb-15`}>
-                        <Detail name='Калории,ккал' value={ingredient?.calories}/>
-                        <Detail name='Белки, г' value={ingredient?.proteins}/>
-                        <Detail name='Жиры, г' value={ingredient?.fat}/>
-                        <Detail name='Углеводы, г' value={ingredient?.carbohydrates}/>
+                ) : (
+                    <div className='mt-10'>
+                        <div className={`${ingredientDetails.heading} text text_type_main-large`}>
+                            Детали ингредиента
+                        </div>
+                        <div className='mb-4'><img src={ingredient?.image_large} alt=""/></div>
+                        <div className='text text_type_main-medium mb-8'>{ingredient?.name}</div>
+                        <div className={`${ingredientDetails.list} mb-15`}>
+                            <Detail name='Калории,ккал' value={ingredient?.calories}/>
+                            <Detail name='Белки, г' value={ingredient?.proteins}/>
+                            <Detail name='Жиры, г' value={ingredient?.fat}/>
+                            <Detail name='Углеводы, г' value={ingredient?.carbohydrates}/>
+                        </div>
                     </div>
-                </div>
-            </section>
-        );
-    }
+                )}
+
+            </div>
+        </section>
+    );
 }
 
 export default IngredientDetails;

@@ -18,6 +18,8 @@ import {
     registrationRequest, resetPasswordRequest,
     updateUserRequest
 } from "../../utils/burger-api";
+import {toast} from "react-toast";
+import {getError} from "../../utils/utils";
 
 export const authRequest = createAction(AUTH_REQUEST);
 export const authFailed = createAction(AUTH_FAILED);
@@ -57,11 +59,13 @@ export const registration = (email, password, name) => {
                 dispatch({
                     type: authFailed.type
                 });
+                toast.error(res.message);
             }
-        }).catch(() => {
+        }).catch((e) => {
             dispatch({
                 type: authFailed.type
             });
+            getError(e.message)
         });
     }
 }
@@ -157,7 +161,8 @@ export const getUser = () => {
                 });
             } else {
                 dispatch({
-                    type: authFailed.type
+                    type: authFailed.type,
+                    payload: res.message
                 });
             }
         }).catch((e) => {
@@ -165,7 +170,8 @@ export const getUser = () => {
                 dispatch(refreshToken());
             } else {
                 dispatch({
-                    type: authFailed.type
+                    type: authFailed.type,
+                    payload: e.message()
                 });
             }
         });
@@ -238,10 +244,11 @@ export const resetPassword = (password, code) => {
                     type: authFailed.type
                 });
             }
-        }).catch(() => {
+        }).catch((e) => {
             dispatch({
                 type: authFailed.type
             });
+            getError(e.message)
         });
     }
 }

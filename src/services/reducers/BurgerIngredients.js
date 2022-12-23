@@ -118,7 +118,8 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
             return {
                 ...state,
                 constructorIngredients: [],
-                constructorBun: null
+                constructorBun: null,
+                ingredients: [...state.ingredients].map(item => item.count > 0 ? {...item, count: 0} : item)
             }
         })
 });

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -15,11 +15,10 @@ const Registration = () => {
         setPasswordShow(!passwordShow);
     }
 
-    const handleClick = (e) => {
+    const handleClick = useCallback((e) => {
         e.preventDefault();
-
         dispatch(registration(email, password, name));
-    }
+    }, [dispatch, email, password, name]);
 
     return (
         <>

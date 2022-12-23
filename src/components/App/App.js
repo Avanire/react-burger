@@ -11,6 +11,7 @@ import {
 import AppHeader from "../AppHeader/AppHeader";
 import ResetPasswordPage from "../../pages/ResetPassword";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import {ToastContainer} from "react-toast";
 
 const App = () => {
     const history = useHistory();
@@ -43,7 +44,11 @@ const App = () => {
                 <ProtectedRoute path='/profile' exact={true}>
                     <ProfilePage/>
                 </ProtectedRoute>
+                <ProtectedRoute path='/profile/orders' exact={true}>
+
+                </ProtectedRoute>
             </Switch>
+            <ToastContainer delay={3000} />
         </>
     );
 

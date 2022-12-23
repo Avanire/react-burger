@@ -1,12 +1,15 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {
     authFailed,
-    authRequest, forgotPasswordSuccess,
+    authRequest,
+    forgotPasswordSuccess,
     getUserSuccess,
     loginSuccess,
     logoutSuccess,
     refreshTokenSuccess,
-    registrationSuccess, resetPasswordEnter, resetPasswordSuccess,
+    registrationSuccess,
+    resetPasswordEnter,
+    resetPasswordSuccess,
     updateUserSuccess
 } from '../actions/Auth';
 import {deleteCookie, getCookie, setCookie} from "../../utils/utils";
@@ -31,7 +34,7 @@ export const authReducer = createReducer(initialState, builder => {
                 failed: false
             }
         })
-        .addCase(authFailed, state => {
+        .addCase(authFailed, (state) => {
             return {
                 ...state,
                 request: false,
@@ -117,18 +120,24 @@ export const authReducer = createReducer(initialState, builder => {
         .addCase(forgotPasswordSuccess, (state, action) => {
             return {
                 ...state,
-                isResetPass: action.payload
+                isResetPass: action.payload,
+                request: false,
+                failed: false
             }
         })
         .addCase(resetPasswordEnter, (state) => {
             return {
                 ...state,
-                isResetPass: false
+                isResetPass: false,
+                request: false,
+                failed: false
             }
         })
         .addCase(resetPasswordSuccess, (state) => {
             return {
-                ...state
+                ...state,
+                request: false,
+                failed: false
             }
         })
 });

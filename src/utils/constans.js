@@ -30,3 +30,8 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const RESET_PASSWORD_ENTER = 'RESET_PASSWORD_ENTER';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+
+export const REGISTRATION_FIELDS_REQUIRED = 'Почта, пароль и имя - обязательно для заполнения';
+export const NAME_OCCUPIED = 'Имя уже занято';
+export const WRONG_EMAIL_CODE = 'Неправильный код из письма';
+export const DEFAULT_ERROR = 'Произошла ошибка';
