@@ -8,3 +8,12 @@
     display: flex;
     justify-content: center;
 }
+
+.productWrapper {
+    text-align: center;
+}
+
+.product {
+    max-width: 480px;
+    margin: 0 auto;
+}

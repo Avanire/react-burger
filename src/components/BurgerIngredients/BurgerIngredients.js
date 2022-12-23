@@ -12,8 +12,10 @@ import {
     removeModalIngredient
 } from "../../services/actions/BurgerIngredients";
 import {useDrag} from "react-dnd";
+import {Link, useHistory} from "react-router-dom";
 
 const Card = ({ingredient, openModal}) => {
+    const history = useHistory();
     const [{isDrag}, dragRef] = useDrag({
         type: 'ingredient',
         item: ingredient,
@@ -22,11 +24,13 @@ const Card = ({ingredient, openModal}) => {
         })
     });
 
+
     return (
-        !isDrag && (<section
+        !isDrag && (<Link
             className={`${burgerIngredients.product} mb-8`}
-            onClick={() => openModal(ingredient)}
+            onClick={(e) => openModal(ingredient, e)}
             ref={dragRef}
+            to={{pathname: `/ingredients/${ingredient._id}`, state: {popUp: history.location}}}
         >
             <span className="counter">{ingredient.count > 0 &&
                 <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
@@ -42,7 +46,7 @@ const Card = ({ingredient, openModal}) => {
                 <CurrencyIcon type="primary"/>
             </div>
             <div className={`text text_type_main-default ${burgerIngredients.name}`}>{ingredient.name}</div>
-        </section>)
+        </Link>)
     );
 }
 
@@ -74,6 +78,7 @@ const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = React.useState('rolls');
     const {ingredients, ingredientsRequest, ingredientsFailed} = useSelector(state => state.burgerIngredients);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(getBurgerIngredients());
@@ -113,10 +118,10 @@ const BurgerIngredients = () => {
         fillingsTab.current.scrollIntoView({behavior: 'smooth'});
     }
 
-    const handleOpenModal = (ingredient) => {
+    const handleOpenModal = (id) => {
         dispatch({
             type: addModalIngredient.type,
-            payload: ingredient
+            payload: id
         });
         setModal(true);
     }
@@ -126,6 +131,7 @@ const BurgerIngredients = () => {
             type: removeModalIngredient.type
         })
         setModal(false);
+        history.replace('/');
     }
 
     const handleScroll = () => {
