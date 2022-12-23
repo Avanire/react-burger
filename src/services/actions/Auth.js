@@ -190,6 +190,7 @@ export const updateUser = (email, password, name) => {
                     type: updateUserSuccess.type,
                     user: res.user
                 });
+                toast.success('Данные сохранены');
             } else {
                 dispatch({
                     type: authFailed.type

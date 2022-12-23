@@ -14,6 +14,9 @@ const Profile = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [currentName, setCurrentName] = useState('');
+    const [currentEmail, setCurrentEmail] = useState('');
+
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const passRef = useRef(null);
@@ -21,6 +24,8 @@ const Profile = () => {
     useEffect(() => {
         setName(() => user.name);
         setEmail(() => user.email);
+        setCurrentName(() => user.name);
+        setCurrentEmail(() => user.email);
     }, [user])
 
     const onIconClick = (target) => {
@@ -29,13 +34,14 @@ const Profile = () => {
 
     const handleCancel = (e) => {
         e.preventDefault();
-        setName(user.name);
-        setEmail(user.email);
+        setName(currentName);
+        setEmail(currentEmail);
         setPassword('');
     }
 
     const handleSave = (e) => {
         e.preventDefault();
+
         dispatch(updateUser(email, password, name));
     }
 
@@ -44,7 +50,7 @@ const Profile = () => {
             <div className={styles.container}>
                 <ProfileMenu/>
                 {request ? (<div className={styles.preloader}><GridLoader color="#8a37d1"/></div>) :
-                    (<div>
+                    (<form onSubmit={handleSave}>
                         <Input value={name}
                                onChange={e => setName(e.target.value)}
                                type='text'
@@ -72,15 +78,15 @@ const Profile = () => {
                                extraClass='mb-6'
                                ref={passRef}
                         />
-                        <div className={styles.buttonBlock}>
+                        {currentName !== name || currentEmail !== email || password !== '' ? (<div className={styles.buttonBlock}>
                             <Button htmlType="button" type="secondary" size="medium" onClick={handleCancel}>
                                 Отмена
                             </Button>
-                            <Button htmlType="button" type="primary" size="medium" onClick={handleSave}>
+                            <Button htmlType="submit" type="primary" size="medium">
                                 Сохранить
                             </Button>
-                        </div>
-                    </div>)}
+                        </div>) : ''}
+                    </form>)}
             </div>
         </section>
     );
