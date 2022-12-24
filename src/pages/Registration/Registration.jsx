@@ -1,6 +1,6 @@
 import React from "react";
-import InnerPage from "../components/InnerPage/InnerPage";
-import Registration from "../components/Registration";
+import InnerPage from "../../components/InnerPage/InnerPage";
+import Registration from "../../components/Registration";
 
 export default function RegistrationPage() {
     return (

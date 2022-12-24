@@ -35,7 +35,7 @@ const ProfileMenu = () => {
                 </li>
                 <li className={`${styles.listItem} pt-4 pb-4`}>
                     <Link className={`${styles.link} text text_type_main-medium`}
-                          to='/'
+                          to='/login'
                           onClick={handleLogout}
                     >
                         Выход

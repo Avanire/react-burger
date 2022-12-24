@@ -1,5 +1,11 @@
 import {toast} from "react-toast";
-import {DEFAULT_ERROR, NAME_OCCUPIED, REGISTRATION_FIELDS_REQUIRED, WRONG_EMAIL_CODE} from "./constans";
+import {
+    DEFAULT_ERROR,
+    INCORRECT_EMAIL_OR_PASSWORD,
+    NAME_OCCUPIED,
+    REGISTRATION_FIELDS_REQUIRED,
+    WRONG_EMAIL_CODE
+} from "./constans";
 
 export const getCookie = (name) => {
     const matches = document.cookie.match(
@@ -46,6 +52,9 @@ export const getError = (error) => {
             break
         case 'Incorrect reset token':
             toast.error(WRONG_EMAIL_CODE)
+            break
+        case 'email or password are incorrect':
+            toast.error(INCORRECT_EMAIL_OR_PASSWORD)
             break
         default:
             toast.error(DEFAULT_ERROR)

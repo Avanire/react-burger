@@ -34,9 +34,12 @@ const ResetPassword = () => {
         return (<Redirect to='/login' />);
     }
 
+    if (prevLink !== '/forgot-password') {
+        return (<Redirect to={{ pathname: '/' }} />);
+    }
+
     return (
-        prevLink === '/forgot-password' ?
-            (<>
+        <>
             <div className={`text text_type_main-medium mb-6`}>Восстановление пароля</div>
             <Input value={password}
                    onChange={e => setPassword(e.target.value)}
@@ -57,7 +60,7 @@ const ResetPassword = () => {
             <p className='text text_type_main-default text_color_inactive'>
                 Вспомнили пароль? <Link to='/login' className='link'>Войти</Link>
             </p>
-        </>) : (<Redirect to={{ pathname: '/' }} />)
+        </>
     );
 }
 

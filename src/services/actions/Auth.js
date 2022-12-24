@@ -89,10 +89,11 @@ export const login = (email, password) => {
                     type: authFailed.type
                 });
             }
-        }).catch(() => {
+        }).catch((e) => {
             dispatch({
                 type: authFailed.type
             });
+            getError(e.message)
         });
     }
 }

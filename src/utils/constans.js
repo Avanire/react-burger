@@ -34,4 +34,5 @@ export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const REGISTRATION_FIELDS_REQUIRED = 'Почта, пароль и имя - обязательно для заполнения';
 export const NAME_OCCUPIED = 'Имя уже занято';
 export const WRONG_EMAIL_CODE = 'Неправильный код из письма';
+export const INCORRECT_EMAIL_OR_PASSWORD = 'Неправильный логин или пароль';
 export const DEFAULT_ERROR = 'Произошла ошибка';

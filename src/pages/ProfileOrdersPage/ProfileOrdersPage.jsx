@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileOrders from "../components/ProfileOrders";
+import ProfileOrders from "../../components/ProfileOrders";
 
 export default function ProfileOrdersPage() {
     return (

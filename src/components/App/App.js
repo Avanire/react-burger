@@ -9,7 +9,7 @@ import {
     RegistrationPage
 } from '../../pages';
 import AppHeader from "../AppHeader/AppHeader";
-import ResetPasswordPage from "../../pages/ResetPassword";
+import ResetPasswordPage from "../../pages/ResetPassword/ResetPassword";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {ToastContainer} from "react-toast";
 
@@ -23,28 +23,28 @@ const App = () => {
         <>
             <AppHeader/>
             <Switch location={popUp || location}>
-                <Route path="/" exact={true}>
+                <Route path="/" exact>
                     <HomePage/>
                 </Route>
-                <Route path="/login" exact={true}>
+                <ProtectedRoute path="/login" exact onlyAuth={false}>
                     <LoginPage/>
-                </Route>
-                <Route path='/register' exact={true}>
+                </ProtectedRoute>
+                <ProtectedRoute path='/register' exact onlyAuth={false}>
                     <RegistrationPage/>
-                </Route>
-                <Route path='/forgot-password' exact={true}>
+                </ProtectedRoute>
+                <ProtectedRoute path='/forgot-password' exact onlyAuth={false}>
                     <ForgotPasswordPage/>
-                </Route>
-                <Route path='/reset-password' exact={true}>
+                </ProtectedRoute>
+                <ProtectedRoute path='/reset-password' exact onlyAuth={false}>
                     <ResetPasswordPage/>
-                </Route>
-                <Route path={`/ingredients/:id`} exact={true}>
+                </ProtectedRoute>
+                <Route path={`/ingredients/:id`} exact>
                     <IngredientDetailsPage/>
                 </Route>
-                <ProtectedRoute path='/profile' exact={true}>
+                <ProtectedRoute path='/profile' exact onlyAuth={true}>
                     <ProfilePage/>
                 </ProtectedRoute>
-                <ProtectedRoute path='/profile/orders' exact={true}>
+                <ProtectedRoute path='/profile/orders' exact onlyAuth={true}>
                     <ProfileOrdersPage/>
                 </ProtectedRoute>
             </Switch>

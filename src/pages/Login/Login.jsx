@@ -1,6 +1,6 @@
 import React from "react";
-import InnerPage from "../components/InnerPage/InnerPage";
-import Login from "../components/Login";
+import InnerPage from "../../components/InnerPage/InnerPage";
+import Login from "../../components/Login";
 
 export default function LoginPage() {
     return (
