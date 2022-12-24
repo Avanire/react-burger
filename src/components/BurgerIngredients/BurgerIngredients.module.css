@@ -17,6 +17,8 @@
     flex: 1 0 272px;
     max-width: 272px;
     position: relative;
+    color: #fff;
+    text-decoration: none;
 }
 
 .product:nth-child(even) {
@@ -45,4 +47,8 @@
 
 .tab {
     display: flex;
+}
+
+.preloader {
+    text-align: center;
 }

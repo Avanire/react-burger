@@ -18,3 +18,21 @@ export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
 
 export const CHANGE_POSITIONS = 'CHANGE_POSITIONS';
+
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const AUTH_FAILED = 'AUTH_FAILED';
+export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const REFRESH_TOKEN_SUCCESS= 'REFRESH_TOKEN_SUCCESS';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const GET_USER = 'GET_USER';
+export const UPDATE_USER = 'UPDATE_USER';
+export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+export const RESET_PASSWORD_ENTER = 'RESET_PASSWORD_ENTER';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+
+export const REGISTRATION_FIELDS_REQUIRED = 'Почта, пароль и имя - обязательно для заполнения';
+export const NAME_OCCUPIED = 'Имя уже занято';
+export const WRONG_EMAIL_CODE = 'Неправильный код из письма';
+export const INCORRECT_EMAIL_OR_PASSWORD = 'Неправильный логин или пароль';
+export const DEFAULT_ERROR = 'Произошла ошибка';

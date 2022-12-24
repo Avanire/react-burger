@@ -19,7 +19,7 @@ const initialState = {
     ingredientsFailed: false,
     constructorIngredients: [],
     constructorBun: null,
-    modalIngredient: {}
+    modalIngredient: null
 }
 
 export const burgerIngredientsReducer = createReducer(initialState, (builder) => {
@@ -55,7 +55,7 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
         .addCase(removeModalIngredient, (state) => {
             return {
                 ...state,
-                modalIngredient: {}
+                modalIngredient: null
             }
         })
         .addCase(addIngredient, (state, action) => {
@@ -118,7 +118,8 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
             return {
                 ...state,
                 constructorIngredients: [],
-                constructorBun: null
+                constructorBun: null,
+                ingredients: [...state.ingredients].map(item => item.count > 0 ? {...item, count: 0} : item)
             }
         })
 });

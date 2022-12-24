@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import doneImg from '../../images/done.svg';
 import orderDetail from './OrderDetail.module.css';
-import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from "react-redux";
 import {getOrder} from "../../services/actions/OrderDetails";
+import {GridLoader} from "react-spinners";
 
 const OrderDetail = () => {
     const cart = useSelector(state => state.burgerIngredients.constructorIngredients);
@@ -16,7 +16,7 @@ const OrderDetail = () => {
     }, [dispatch])
 
     return (
-        orderRequest ? (<p>Загрузка...</p>) : orderFailed ? (<p>Произошла ошибка. Попробуйте позже</p>) : (<section>
+        orderRequest ? (<GridLoader color="#8a37d1"/>) : orderFailed ? (<p>Произошла ошибка. Попробуйте позже</p>) : (<section>
             <h1 className={`${orderDetail.title} text text_type_digits-large mb-8 mt-30`}>{number}</h1>
             <div className='text text_type_main-medium mb-15'>идентификатор заказа</div>
             <div className='mb-15'><img src={doneImg} alt="success"/></div>
@@ -26,14 +26,6 @@ const OrderDetail = () => {
             </div>
         </section>)
     );
-}
-
-OrderDetail.propTypes = {
-    order: PropTypes.shape({
-        isLoading: PropTypes.bool.isRequired,
-        hasError: PropTypes.bool.isRequired,
-        number: PropTypes.number.isRequired
-    })
 }
 
 export default OrderDetail;

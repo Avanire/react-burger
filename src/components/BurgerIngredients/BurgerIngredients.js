@@ -12,8 +12,11 @@ import {
     removeModalIngredient
 } from "../../services/actions/BurgerIngredients";
 import {useDrag} from "react-dnd";
+import {Link, useHistory} from "react-router-dom";
+import {GridLoader} from "react-spinners";
 
 const Card = ({ingredient, openModal}) => {
+    const history = useHistory();
     const [{isDrag}, dragRef] = useDrag({
         type: 'ingredient',
         item: ingredient,
@@ -22,11 +25,13 @@ const Card = ({ingredient, openModal}) => {
         })
     });
 
+
     return (
-        !isDrag && (<section
+        !isDrag && (<Link
             className={`${burgerIngredients.product} mb-8`}
-            onClick={() => openModal(ingredient)}
+            onClick={(e) => openModal(ingredient, e)}
             ref={dragRef}
+            to={{pathname: `/ingredients/${ingredient._id}`, state: {popUp: history.location}}}
         >
             <span className="counter">{ingredient.count > 0 &&
                 <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
@@ -42,7 +47,7 @@ const Card = ({ingredient, openModal}) => {
                 <CurrencyIcon type="primary"/>
             </div>
             <div className={`text text_type_main-default ${burgerIngredients.name}`}>{ingredient.name}</div>
-        </section>)
+        </Link>)
     );
 }
 
@@ -72,8 +77,9 @@ Category.propTypes = {
 
 const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = React.useState('rolls');
-    const {ingredients, ingredientsRequest, ingredientsFailed} = useSelector(state => state.burgerIngredients);
+    const {ingredients, ingredientsRequest} = useSelector(state => state.burgerIngredients);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(getBurgerIngredients());
@@ -113,10 +119,10 @@ const BurgerIngredients = () => {
         fillingsTab.current.scrollIntoView({behavior: 'smooth'});
     }
 
-    const handleOpenModal = (ingredient) => {
+    const handleOpenModal = (id) => {
         dispatch({
             type: addModalIngredient.type,
-            payload: ingredient
+            payload: id
         });
         setModal(true);
     }
@@ -126,6 +132,7 @@ const BurgerIngredients = () => {
             type: removeModalIngredient.type
         })
         setModal(false);
+        history.replace('/');
     }
 
     const handleScroll = () => {
@@ -142,47 +149,40 @@ const BurgerIngredients = () => {
         }
     }
 
-    if (ingredientsRequest) {
-        return (<p>Loading...</p>);
-    } else if (ingredientsFailed) {
-        return (
-            <section>
-                <h1>Что-то пошло не так :(</h1>
-                <p>
-                    В приложении произошла ошибка. Пожалуйста, перезагрузите страницу.
-                </p>
+    return (
+        <>
+            <section className={`${burgerIngredients.ingredients} mr-10`}>
+                <h1 className="mt-10 mb-5 text text_type_main-large">Соберите бургер</h1>
+                <div className={`${burgerIngredients.tab} mb-10`}>
+                    <Tab value="rolls" active={currentTab === 'rolls'} onClick={scrollToRolls}>
+                        Булки
+                    </Tab>
+                    <Tab value="fillings" active={currentTab === 'fillings'} onClick={scrollToFillings}>
+                        Начинки
+                    </Tab>
+                    <Tab value="sauce" active={currentTab === 'sauce'} onClick={scrollToSauces}>
+                        Соусы
+                    </Tab>
+                </div>
+                {ingredientsRequest ? (
+                    <div className={burgerIngredients.preloader}><GridLoader color="#8a37d1"/></div>) : (
+                    <>
+                        <div className={`${burgerIngredients.category_wrapper} custom-scroll`} ref={scrollableBlock}
+                             onScroll={handleScroll}>
+                            <Category ref={rollsTab} data={bun}
+                                      openModal={handleOpenModal}>Булки</Category>
+                            <Category ref={fillingsTab} data={main}
+                                      openModal={handleOpenModal}>Начинки</Category>
+                            <Category ref={sauceTab} data={sauce}
+                                      openModal={handleOpenModal}>Соусы</Category>
+                        </div>
+                    </>
+                )}
+
             </section>
-        );
-    } else {
-        return (
-            <>
-                <section className={`${burgerIngredients.ingredients} mr-10`}>
-                    <h1 className="mt-10 mb-5 text text_type_main-large">Соберите бургер</h1>
-                    <div className={`${burgerIngredients.tab} mb-10`}>
-                        <Tab value="rolls" active={currentTab === 'rolls'} onClick={scrollToRolls}>
-                            Булки
-                        </Tab>
-                        <Tab value="fillings" active={currentTab === 'fillings'} onClick={scrollToFillings}>
-                            Начинки
-                        </Tab>
-                        <Tab value="sauce" active={currentTab === 'sauce'} onClick={scrollToSauces}>
-                            Соусы
-                        </Tab>
-                    </div>
-                    <div className={`${burgerIngredients.category_wrapper} custom-scroll`} ref={scrollableBlock}
-                         onScroll={handleScroll}>
-                        <Category ref={rollsTab} data={bun}
-                                  openModal={handleOpenModal}>Булки</Category>
-                        <Category ref={fillingsTab} data={main}
-                                  openModal={handleOpenModal}>Начинки</Category>
-                        <Category ref={sauceTab} data={sauce}
-                                  openModal={handleOpenModal}>Соусы</Category>
-                    </div>
-                </section>
-                {modal && <Modal onClose={handleCloseModal}><IngredientDetails/></Modal>}
-            </>
-        );
-    }
+            {modal && <Modal onClose={handleCloseModal}><IngredientDetails/></Modal>}
+        </>
+    );
 
 }
 

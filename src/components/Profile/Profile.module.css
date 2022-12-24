@@ -1,0 +1,44 @@
+.wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 88px);
+}
+
+.container {
+    display: flex;
+}
+
+.navigation {
+    max-width: 320px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.listItem {
+    display: block;
+}
+
+.link {
+    text-decoration: none;
+    color: #8585AD;
+}
+
+.linkActive {
+    composes: link;
+    color: #F2F2F3;
+}
+
+.buttonBlock {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.preloader {
+    position: relative;
+    left: 50%;
+}
