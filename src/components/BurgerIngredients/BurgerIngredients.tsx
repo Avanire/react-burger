@@ -1,11 +1,8 @@
-import React, {useEffect} from "react";
+import React, {FC, useEffect} from "react";
 import burgerIngredients from './BurgerIngredients.module.css';
 import {Counter, CurrencyIcon, Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import dataPropTypes from '../../utils/prop-types';
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch, useSelector} from "react-redux";
 import {
     addModalIngredient,
     getBurgerIngredients,
@@ -14,8 +11,15 @@ import {
 import {useDrag} from "react-dnd";
 import {Link, useHistory} from "react-router-dom";
 import {GridLoader} from "react-spinners";
+import {TIngredient} from "../../utils/prop-types";
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 
-const Card = ({ingredient, openModal}) => {
+interface ICardProps {
+    ingredient: TIngredient;
+    openModal: (ingredient: TIngredient) => void
+}
+
+const Card: FC<ICardProps> = ({ingredient, openModal}) => {
     const history = useHistory();
     const [{isDrag}, dragRef] = useDrag({
         type: 'ingredient',
@@ -25,20 +29,19 @@ const Card = ({ingredient, openModal}) => {
         })
     });
 
-
     return (
-        !isDrag && (<Link
+        !isDrag ? (<Link
             className={`${burgerIngredients.product} mb-8`}
-            onClick={(e) => openModal(ingredient, e)}
+            onClick={() => openModal(ingredient)}
             ref={dragRef}
             to={{pathname: `/ingredients/${ingredient._id}`, state: {popUp: history.location}}}
         >
-            <span className="counter">{ingredient.count > 0 &&
+            <span className="counter">{ingredient.count && ingredient.count > 0 &&
                 <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
             <div className={burgerIngredients.image}>
                 <picture>
-                    <source srcSet={ingredient.imageMobile} media="(max-width: 375px)"/>
-                    <source srcSet={ingredient.imageLarge} media="(max-width: 1920px)"/>
+                    <source srcSet={ingredient.image_mobile} media="(max-width: 375px)"/>
+                    <source srcSet={ingredient.image_large} media="(max-width: 1920px)"/>
                     <img src={ingredient.image} alt={ingredient.name}/>
                 </picture>
             </div>
@@ -47,16 +50,17 @@ const Card = ({ingredient, openModal}) => {
                 <CurrencyIcon type="primary"/>
             </div>
             <div className={`text text_type_main-default ${burgerIngredients.name}`}>{ingredient.name}</div>
-        </Link>)
+        </Link>) : (<></>)
     );
 }
 
-Card.propTypes = {
-    ingredient: dataPropTypes.isRequired,
-    openModal: PropTypes.func.isRequired
+interface ICategoryProps {
+    children: string;
+    data: Array<TIngredient>;
+    openModal: (ingredient: TIngredient) => void
 }
 
-const Category = React.forwardRef((props, ref) => {
+const Category = React.forwardRef<HTMLElement, ICategoryProps>((props, ref) => {
     return (
         <section ref={ref}>
             <h2 className='text text_type_main-medium mb-6'>{props.children}</h2>
@@ -69,28 +73,22 @@ const Category = React.forwardRef((props, ref) => {
     );
 });
 
-Category.propTypes = {
-    children: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
-    openModal: PropTypes.func.isRequired
-}
-
 const BurgerIngredients = () => {
-    const [currentTab, setCurrentTab] = React.useState('rolls');
-    const {ingredients, ingredientsRequest} = useSelector(state => state.burgerIngredients);
-    const dispatch = useDispatch();
+    const [currentTab, setCurrentTab] = React.useState<string>('rolls');
+    const {ingredients, ingredientsRequest} = useAppSelector(state => state.burgerIngredients);
+    const dispatch = useAppDispatch();
     const history = useHistory();
 
     useEffect(() => {
         dispatch(getBurgerIngredients());
     }, [dispatch]);
 
-    const [modal, setModal] = React.useState(false);
+    const [modal, setModal] = React.useState<boolean>(false);
 
-    const scrollableBlock = React.useRef(null);
-    const rollsTab = React.useRef(null);
-    const fillingsTab = React.useRef(null);
-    const sauceTab = React.useRef(null);
+    const scrollableBlock = React.useRef<HTMLDivElement>(null);
+    const rollsTab = React.useRef<HTMLElement>(null);
+    const fillingsTab = React.useRef<HTMLElement>(null);
+    const sauceTab = React.useRef<HTMLElement>(null);
 
     const bun = React.useMemo(() => {
         return ingredients.filter(item => item.type === 'bun');
@@ -104,25 +102,25 @@ const BurgerIngredients = () => {
         return ingredients.filter(item => item.type === 'sauce');
     }, [ingredients]);
 
-    const scrollToSauces = (value) => {
+    const scrollToSauces = (value: string) => {
         setCurrentTab(value);
-        sauceTab.current.scrollIntoView({behavior: 'smooth'});
+        sauceTab.current?.scrollIntoView({behavior: 'smooth'});
     }
 
-    const scrollToRolls = (value) => {
+    const scrollToRolls = (value: string) => {
         setCurrentTab(value);
-        rollsTab.current.scrollIntoView({behavior: 'smooth'});
+        rollsTab.current?.scrollIntoView({behavior: 'smooth'});
     }
 
-    const scrollToFillings = (value) => {
+    const scrollToFillings = (value: string) => {
         setCurrentTab(value);
-        fillingsTab.current.scrollIntoView({behavior: 'smooth'});
+        fillingsTab.current?.scrollIntoView({behavior: 'smooth'});
     }
 
-    const handleOpenModal = (id) => {
+    const handleOpenModal = (ingredient: TIngredient) => {
         dispatch({
             type: addModalIngredient.type,
-            payload: id
+            payload: ingredient
         });
         setModal(true);
     }
@@ -136,13 +134,13 @@ const BurgerIngredients = () => {
     }
 
     const handleScroll = () => {
-        const yCoordinateRollsTab = rollsTab.current.getBoundingClientRect().y;
-        const yCoordinateFillingsTab = fillingsTab.current.getBoundingClientRect().y;
-        const yCoordinateSauceTab = sauceTab.current.getBoundingClientRect().y;
+        const yCoordinateRollsTab = rollsTab.current?.getBoundingClientRect().y;
+        const yCoordinateFillingsTab = fillingsTab.current?.getBoundingClientRect().y;
+        const yCoordinateSauceTab = sauceTab.current?.getBoundingClientRect().y;
 
-        if (yCoordinateRollsTab < yCoordinateFillingsTab && yCoordinateRollsTab > 0) {
+        if (yCoordinateRollsTab && yCoordinateFillingsTab ? yCoordinateRollsTab < yCoordinateFillingsTab && yCoordinateRollsTab > 0 : false) {
             setCurrentTab('rolls');
-        } else if (yCoordinateFillingsTab < yCoordinateSauceTab && yCoordinateFillingsTab > 0) {
+        } else if (yCoordinateFillingsTab && yCoordinateSauceTab ? yCoordinateFillingsTab < yCoordinateSauceTab && yCoordinateFillingsTab > 0 : false) {
             setCurrentTab('fillings');
         } else {
             setCurrentTab('sauce');

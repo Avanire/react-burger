@@ -12,10 +12,11 @@ import AppHeader from "../AppHeader/AppHeader";
 import ResetPasswordPage from "../../pages/ResetPassword/ResetPassword";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {ToastContainer} from "react-toast";
+import {IPopUp} from "../../utils/prop-types";
 
 const App = () => {
     const history = useHistory();
-    const location = useLocation();
+    const location = useLocation<IPopUp>();
 
     const popUp = (history.action === 'PUSH') && location.state?.popUp;
 

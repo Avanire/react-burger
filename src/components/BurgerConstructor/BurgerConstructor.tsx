@@ -1,9 +1,8 @@
-import React from "react";
+import React, {FC} from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
 import OrderDetail from "../OrderDetails/OrderDetails";
-import {useDispatch, useSelector} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
 import {
     addIngredient,
@@ -11,10 +10,10 @@ import {
     changePositions,
     removeIngredient
 } from "../../services/actions/BurgerIngredients";
-import PropTypes from "prop-types";
-import dataPropTypes from "../../utils/prop-types";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {TBurgerConstructorElement, TIngredient, TMoveCard} from "../../utils/prop-types";
 
-const BurgerConstructorElement = ({ingredient, handleRemove, findCard, moveCard}) => {
+const BurgerConstructorElement: FC<TBurgerConstructorElement> = ({ingredient, handleRemove, findCard, moveCard}) => {
     const originalIndex = findCard(ingredient.constructorId).index;
     const id = ingredient.constructorId;
 
@@ -35,10 +34,10 @@ const BurgerConstructorElement = ({ingredient, handleRemove, findCard, moveCard}
 
     const [, drop] = useDrop({
         accept: ingredient.type === 'bun' ? 'bun' : 'sortElement',
-        hover({id: draggedId}) {
-            if (draggedId !== id) {
+        hover(draggedId: TMoveCard) {
+            if (draggedId.id !== id) {
                 const {index: overIndex} = findCard(id)
-                moveCard(draggedId, overIndex)
+                moveCard(draggedId.id, overIndex)
             }
         },
     })
@@ -56,17 +55,10 @@ const BurgerConstructorElement = ({ingredient, handleRemove, findCard, moveCard}
     );
 }
 
-BurgerConstructorElement.propTypes = {
-    ingredient: dataPropTypes.isRequired,
-    handleRemove: PropTypes.func.isRequired,
-    findCard: PropTypes.func.isRequired,
-    moveCard: PropTypes.func.isRequired
-};
-
 const BurgerConstructor = () => {
-    const cart = useSelector(state => state.burgerIngredients.constructorIngredients);
-    const bun = useSelector(state => state.burgerIngredients.constructorBun);
-    const dispatch = useDispatch();
+    const cart = useAppSelector(state => state.burgerIngredients.constructorIngredients);
+    const bun = useAppSelector(state => state.burgerIngredients.constructorBun);
+    const dispatch = useAppDispatch();
 
     const [modal, setModal] = React.useState(false);
 
@@ -88,26 +80,26 @@ const BurgerConstructor = () => {
 
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
-        drop(ingredient) {
+        drop(ingredient: TIngredient) {
             ingredient.type === 'bun' ? addBun(ingredient) : addIngredients(ingredient);
         }
     });
 
-    const addBun = (ingredient) => {
+    const addBun = (ingredient: TIngredient) => {
         dispatch({
             type: addIngredientBun.type,
             payload: ingredient
         })
     }
 
-    const addIngredients = (ingredient) => {
+    const addIngredients = (ingredient: TIngredient) => {
         dispatch({
             type: addIngredient.type,
             payload: ingredient
         })
     }
 
-    const handleRemove = (ingredient) => {
+    const handleRemove = (ingredient: TIngredient) => {
         dispatch({
             type: removeIngredient.type,
             payload: ingredient
@@ -115,8 +107,9 @@ const BurgerConstructor = () => {
     }
 
     const findCard = React.useCallback(
-        (id) => {
+        (id: string) => {
             const card = cart.filter((c) => c.constructorId === id)[0];
+
             return {
                 card,
                 index: cart.findIndex(card => card.constructorId === id),
@@ -126,7 +119,7 @@ const BurgerConstructor = () => {
     )
 
     const moveCard = React.useCallback(
-        (id, atIndex) => {
+        (id: string, atIndex: number) => {
             const {card, index} = findCard(id);
 
             dispatch({
@@ -191,7 +184,7 @@ const BurgerConstructor = () => {
                 </div>
                 <div className={burgerConstructor.checkout}>
                     <div className={`${burgerConstructor.sum} mr-10`}><span
-                        className={`mr-2 text text_type_digits-medium`}>{total}</span><CurrencyIcon type="default"/>
+                        className={`mr-2 text text_type_digits-medium`}>{total}</span><CurrencyIcon type="primary"/>
                     </div>
                     <Button
                         htmlType="button"

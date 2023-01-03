@@ -12,23 +12,24 @@ import {
     REMOVE_INGREDIENT,
     REMOVE_MODAL_INGREDIENT
 } from '../../utils/constans';
+import {TIngredient, TChangesPositionObject, IDispatch} from "../../utils/prop-types";
 
-export const burgerIngredientsRequest = createAction(GET_INGREDIENTS_REQUEST);
-export const burgerIngredientsSuccess = createAction(GET_INGREDIENTS_SUCCESS);
-export const burgerIngredientsFailed = createAction(GET_INGREDIENTS_FAILED);
+export const burgerIngredientsRequest = createAction<boolean>(GET_INGREDIENTS_REQUEST);
+export const burgerIngredientsSuccess = createAction<Array<TIngredient>>(GET_INGREDIENTS_SUCCESS);
+export const burgerIngredientsFailed = createAction<boolean>(GET_INGREDIENTS_FAILED);
 
-export const addIngredient = createAction(ADD_INGREDIENT);
-export const removeIngredient = createAction(REMOVE_INGREDIENT);
-export const addIngredientBun = createAction(ADD_BUN);
-export const clearIngredients = createAction(CLEAR_INGREDIENTS);
+export const addIngredient = createAction<TIngredient>(ADD_INGREDIENT);
+export const removeIngredient = createAction<TIngredient>(REMOVE_INGREDIENT);
+export const addIngredientBun = createAction<TIngredient>(ADD_BUN);
+export const clearIngredients = createAction<number>(CLEAR_INGREDIENTS);
 
-export const addModalIngredient = createAction(ADD_MODAL_INGREDIENT);
-export const removeModalIngredient = createAction(REMOVE_MODAL_INGREDIENT);
+export const addModalIngredient = createAction<TIngredient>(ADD_MODAL_INGREDIENT);
+export const removeModalIngredient = createAction<boolean>(REMOVE_MODAL_INGREDIENT);
 
-export const changePositions = createAction(CHANGE_POSITIONS);
+export const changePositions = createAction<TChangesPositionObject>(CHANGE_POSITIONS);
 
 export function getBurgerIngredients() {
-    return function (dispatch) {
+    return function (dispatch: (obj: IDispatch) => void) {
         dispatch({
             type: burgerIngredientsRequest.type
         });

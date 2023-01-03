@@ -1,4 +1,4 @@
-export const ESC_KEYCODE = 27;
+export const ESC_KEYCODE = 'Escape';
 export const API_URL = 'https://norma.nomoreparties.space/api';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
@@ -35,4 +35,5 @@ export const REGISTRATION_FIELDS_REQUIRED = 'Почта, пароль и имя 
 export const NAME_OCCUPIED = 'Имя уже занято';
 export const WRONG_EMAIL_CODE = 'Неправильный код из письма';
 export const INCORRECT_EMAIL_OR_PASSWORD = 'Неправильный логин или пароль';
+export const INGREDIENT_NOT_FOUND = 'Не найден ингредиент для добавления в конструктор. Перезагрузите страницу';
 export const DEFAULT_ERROR = 'Произошла ошибка';

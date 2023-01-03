@@ -1,12 +1,13 @@
 import {Redirect, Route} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {FC, useEffect} from "react";
 import {getUser} from "../../services/actions/Auth";
 import PropTypes from "prop-types";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {TProtectedRoute} from "../../utils/prop-types";
 
-const ProtectedRoute = ({onlyAuth, children, ...rest}) => {
-    const dispatch = useDispatch();
-    const isAuth = useSelector(state => state.auth.isAuth);
+const ProtectedRoute: FC<TProtectedRoute> = ({onlyAuth, children, ...rest}) => {
+    const dispatch = useAppDispatch();
+    const isAuth = useAppSelector(state => state.auth.isAuth);
 
     useEffect(() => {
         dispatch(getUser());

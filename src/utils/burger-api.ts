@@ -1,15 +1,16 @@
 import {API_URL} from "./constans";
 import {getCookie} from "./utils";
+import {TBody} from "./prop-types";
 
-const checkResponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+const checkResponse = (res: Response) => {
+    return res.ok ? res.json() : res.json().then((err: string) => Promise.reject(err));
 };
 
-const getRequest = (url, option = {}) => {
+const getRequest = (url: string, option = {}) => {
     return fetch(url, option).then(res => checkResponse(res));
 }
 
-const postRequest = (endPoint, body) => {
+const postRequest = (endPoint:string , body: TBody) => {
     const options = {
         method: 'POST',
         headers: {
@@ -25,7 +26,7 @@ export const getIngredientsRequest = () => {
     return getRequest(`${API_URL}/ingredients`);
 }
 
-export const getOrderRequest = (ids) => {
+export const getOrderRequest = (ids: Array<string>) => {
     const body = {
         "ingredients": ids
     }
@@ -33,7 +34,7 @@ export const getOrderRequest = (ids) => {
     return postRequest('orders', body);
 }
 
-export const forgotPasswordRequest = (email) => {
+export const forgotPasswordRequest = (email: string) => {
     const body = {
         "email": email
     }
@@ -41,7 +42,7 @@ export const forgotPasswordRequest = (email) => {
     return postRequest('password-reset', body);
 }
 
-export const resetPasswordRequest = (password, code) => {
+export const resetPasswordRequest = (password: string, code: string) => {
     const body = {
         "password": password,
         "token": code
@@ -50,7 +51,7 @@ export const resetPasswordRequest = (password, code) => {
     return postRequest('password-reset/reset', body);
 }
 
-export const registrationRequest = (email, password, name) => {
+export const registrationRequest = (email: string, password: string, name: string) => {
     const body = {
         "email": email,
         "password": password,
@@ -60,7 +61,7 @@ export const registrationRequest = (email, password, name) => {
     return postRequest('auth/register', body);
 }
 
-export const loginRequest = (email, password) => {
+export const loginRequest = (email: string, password: string) => {
     const body = {
         "email": email,
         "password": password
@@ -97,7 +98,7 @@ export const getUserRequest = () => {
     return getRequest(`${API_URL}/auth/user`, options);
 }
 
-export const updateUserRequest = (email, password, name) => {
+export const updateUserRequest = (email: string, password: string, name: string) => {
     const body = {
         "email": email,
         "password": password,

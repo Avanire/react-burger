@@ -1,24 +1,24 @@
-import React, {useEffect, useState} from "react";
+import React, {SyntheticEvent, useEffect, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {resetPassword, resetPasswordEnter} from "../../services/actions/Auth";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 const ResetPassword = () => {
-    const [code, setCode] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordShow, setPasswordShow] = useState(false);
-    const [reset, setReset] = useState(false);
+    const [code, setCode] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordShow, setPasswordShow] = useState<boolean>(false);
+    const [reset, setReset] = useState<boolean>(false);
     const history = useHistory();
     const prevLink = history.location?.state || '/';
-    const dispatch = useDispatch();
-    const {request} = useSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+    const {request} = useAppSelector(state => state.auth);
 
     const onPassIconClick = () => {
         setPasswordShow(!passwordShow);
     }
 
-    const handleClick = (e) => {
+    const handleClick = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(resetPassword(password, code));
         setReset(() => true);
@@ -31,11 +31,11 @@ const ResetPassword = () => {
     }, [dispatch]);
 
     if (reset && !request) {
-        return (<Redirect to='/login' />);
+        return (<Redirect to='/login'/>);
     }
 
     if (prevLink !== '/forgot-password') {
-        return (<Redirect to={{ pathname: '/' }} />);
+        return (<Redirect to={{pathname: '/'}}/>);
     }
 
     return (
