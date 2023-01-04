@@ -64,6 +64,21 @@ export type TTokenSuccess = {
     refreshToken: string;
 };
 
+export type TErrors = {
+    [name: string]: string
+};
+
+type TOrder = {
+    number: number
+};
+
+export type TResponseBody<> = {
+    success: boolean;
+    message?: string;
+    data?: Array<TIngredient>;
+    order?: TOrder;
+};
+
 export interface IInitialStateBurgerIngredients {
     ingredients: Array<TIngredient>;
     ingredientsRequest: boolean;

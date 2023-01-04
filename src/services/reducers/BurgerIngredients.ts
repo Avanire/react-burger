@@ -1,4 +1,4 @@
-import {createReducer, PayloadAction} from '@reduxjs/toolkit';
+import {createReducer} from '@reduxjs/toolkit';
 import uuid from 'react-uuid';
 import {
     addIngredient,
@@ -12,7 +12,7 @@ import {
     removeIngredient,
     removeModalIngredient,
 } from '../actions/BurgerIngredients';
-import {IInitialStateBurgerIngredients, TChangesPositionObject, TIngredient} from "../../utils/prop-types";
+import {IInitialStateBurgerIngredients} from "../../utils/prop-types";
 
 const initialState: IInitialStateBurgerIngredients = {
     ingredients: [],
@@ -32,7 +32,7 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 ingredientsFailed: false
             }
         })
-        .addCase(burgerIngredientsSuccess, (state, action: PayloadAction<Array<TIngredient>>) => {
+        .addCase(burgerIngredientsSuccess, (state, action) => {
             return {
                 ...state,
                 ingredientsRequest: false,
@@ -47,7 +47,7 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 ingredientsFailed: true
             }
         })
-        .addCase(addModalIngredient, (state, action: PayloadAction<TIngredient>) => {
+        .addCase(addModalIngredient, (state, action) => {
             return {
                 ...state,
                 modalIngredient: action.payload
@@ -59,7 +59,7 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 modalIngredient: null
             }
         })
-        .addCase(addIngredient, (state, action: PayloadAction<TIngredient>) => {
+        .addCase(addIngredient, (state, action) => {
             const ingredient = state.ingredients.find(item => item._id === action.payload._id);
 
             if (ingredient) {
@@ -75,7 +75,7 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 throw new Error('Ingredient not found');
             }
         })
-        .addCase(removeIngredient, (state, action: PayloadAction<TIngredient>) => {
+        .addCase(removeIngredient, (state, action) => {
             const ingredient = state.ingredients.find(item => item._id === action.payload._id);
 
             if (ingredient) {
@@ -89,7 +89,7 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 }
             }
         })
-        .addCase(addIngredientBun, (state, action: PayloadAction<TIngredient>) => {
+        .addCase(addIngredientBun, (state, action) => {
             if (state.constructorBun) {
                 const oldBun = {
                     ...state.constructorBun,
@@ -119,7 +119,7 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 }
             }
         })
-        .addCase(changePositions, (state, action: PayloadAction<TChangesPositionObject>) => {
+        .addCase(changePositions, (state, action) => {
             const newCart = [...state.constructorIngredients];
             const dragCards = newCart[action.payload.index];
             newCart.splice(action.payload.index, 1);
@@ -135,7 +135,10 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 ...state,
                 constructorIngredients: [],
                 constructorBun: null,
-                ingredients: [...state.ingredients].map(item => item.count && item.count > 0 ? {...item, count: 0} : item)
+                ingredients: [...state.ingredients].map(item => item.count && item.count > 0 ? {
+                    ...item,
+                    count: 0
+                } : item)
             }
         })
 });

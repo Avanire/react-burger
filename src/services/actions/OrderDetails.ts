@@ -16,7 +16,7 @@ export function getOrder(ids: Array<string>) {
         });
 
         getOrderRequest(ids).then(res => {
-            if (res && res.success) {
+            if (res && res.success && res.order) {
                 dispatch({
                     type: orderSuccess.type,
                     payload: res.order.number

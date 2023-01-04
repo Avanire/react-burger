@@ -6,6 +6,7 @@ import {
     REGISTRATION_FIELDS_REQUIRED,
     WRONG_EMAIL_CODE
 } from "./constans";
+import {TErrors} from "./prop-types";
 
 export const getCookie = (name: string): string | undefined => {
     const matches = document.cookie.match(
@@ -48,24 +49,12 @@ export const deleteCookie = (name: string) => {
     setCookie(name, '', { expires: -1 });
 }
 
-export const getError = (error: string) => {
-    switch (error) {
-        case 'Email, password and name are required fields':
-            toast.error(REGISTRATION_FIELDS_REQUIRED)
-            break
-        case 'User already exists':
-            toast.error(NAME_OCCUPIED)
-            break
-        case 'Incorrect reset token':
-            toast.error(WRONG_EMAIL_CODE)
-            break
-        case 'email or password are incorrect':
-            toast.error(INCORRECT_EMAIL_OR_PASSWORD)
-            break
-        case 'Ingredient not found':
-            toast.error(INGREDIENT_NOT_FOUND)
-            break
-        default:
-            toast.error(DEFAULT_ERROR)
-    }
+const ERRORS: TErrors = {
+    'Email, password and name are required fields': REGISTRATION_FIELDS_REQUIRED,
+    'User already exists': NAME_OCCUPIED,
+    'Incorrect reset token': WRONG_EMAIL_CODE,
+    'email or password are incorrect': INCORRECT_EMAIL_OR_PASSWORD,
+    'Ingredient not found': INGREDIENT_NOT_FOUND
 }
+
+export const getError = (error: string) => toast.error(ERRORS[error] || DEFAULT_ERROR);

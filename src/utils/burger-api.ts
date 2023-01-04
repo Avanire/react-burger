@@ -1,16 +1,16 @@
 import {API_URL} from "./constans";
 import {getCookie} from "./utils";
-import {TBody} from "./prop-types";
+import {TBody, TResponseBody} from "./prop-types";
 
 const checkResponse = (res: Response) => {
     return res.ok ? res.json() : res.json().then((err: string) => Promise.reject(err));
 };
 
-const getRequest = (url: string, option = {}) => {
+const getRequest = (url: RequestInfo | URL, option: RequestInit = {}): Promise<TResponseBody> => {
     return fetch(url, option).then(res => checkResponse(res));
 }
 
-const postRequest = (endPoint:string , body: TBody) => {
+const postRequest = (endPoint: string, body: TBody) => {
     const options = {
         method: 'POST',
         headers: {

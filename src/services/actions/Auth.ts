@@ -59,7 +59,9 @@ export const registration = (email: string, password: string, name: string) => {
                 dispatch({
                     type: authFailed.type
                 });
-                toast.error(res.message);
+                if (res && res.message) {
+                    toast.error(res.message);
+                }
             }
         }).catch((e) => {
             dispatch({
