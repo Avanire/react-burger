@@ -12,7 +12,8 @@ import {
     REMOVE_INGREDIENT,
     REMOVE_MODAL_INGREDIENT
 } from '../../utils/constans';
-import {TIngredient, TChangesPositionObject, IDispatch} from "../../utils/prop-types";
+import {TIngredient, TChangesPositionObject} from "../../utils/prop-types";
+import {AppDispatch} from "../store";
 
 export const burgerIngredientsRequest = createAction<boolean>(GET_INGREDIENTS_REQUEST);
 export const burgerIngredientsSuccess = createAction<Array<TIngredient>>(GET_INGREDIENTS_SUCCESS);
@@ -29,7 +30,7 @@ export const removeModalIngredient = createAction<boolean>(REMOVE_MODAL_INGREDIE
 export const changePositions = createAction<TChangesPositionObject>(CHANGE_POSITIONS);
 
 export function getBurgerIngredients() {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: burgerIngredientsRequest.type
         });

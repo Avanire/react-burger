@@ -2,7 +2,7 @@ import {createAction} from '@reduxjs/toolkit';
 import {getOrderRequest} from "../../utils/burger-api";
 import {GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS} from "../../utils/constans";
 import {clearIngredients} from "./BurgerIngredients";
-import {IDispatch} from "../../utils/prop-types";
+import {AppDispatch} from "../store";
 
 export const orderRequest = createAction<boolean>(GET_ORDER_REQUEST);
 export const orderSuccess = createAction<number>(GET_ORDER_SUCCESS);
@@ -10,7 +10,7 @@ export const orderFailed = createAction<boolean>(GET_ORDER_FAILED);
 
 
 export function getOrder(ids: Array<string>) {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: orderRequest.type
         });

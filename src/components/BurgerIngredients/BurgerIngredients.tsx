@@ -11,13 +11,8 @@ import {
 import {useDrag} from "react-dnd";
 import {Link, useHistory} from "react-router-dom";
 import {GridLoader} from "react-spinners";
-import {TIngredient} from "../../utils/prop-types";
+import {ICardProps, ICategoryProps, TIngredient} from "../../utils/prop-types";
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-
-interface ICardProps {
-    ingredient: TIngredient;
-    openModal: (ingredient: TIngredient) => void
-}
 
 const Card: FC<ICardProps> = ({ingredient, openModal}) => {
     const history = useHistory();
@@ -30,34 +25,31 @@ const Card: FC<ICardProps> = ({ingredient, openModal}) => {
     });
 
     return (
-        !isDrag ? (<Link
+        <Link
             className={`${burgerIngredients.product} mb-8`}
             onClick={() => openModal(ingredient)}
             ref={dragRef}
             to={{pathname: `/ingredients/${ingredient._id}`, state: {popUp: history.location}}}
         >
-            <span className="counter">{ingredient.count && ingredient.count > 0 &&
-                <Counter count={ingredient.count} size="default" extraClass="m-1"/>}</span>
+            <span className="counter">{ingredient.count && ingredient.count > 0 ?
+                (<Counter count={ingredient.count} size="default" extraClass="m-1"/>) : null}</span>
             <div className={burgerIngredients.image}>
-                <picture>
-                    <source srcSet={ingredient.image_mobile} media="(max-width: 375px)"/>
-                    <source srcSet={ingredient.image_large} media="(max-width: 1920px)"/>
-                    <img src={ingredient.image} alt={ingredient.name}/>
-                </picture>
+                {
+                    !isDrag ? (
+                        <picture>
+                            <source srcSet={ingredient.image_mobile} media="(max-width: 375px)"/>
+                            <source srcSet={ingredient.image_large} media="(max-width: 1920px)"/>
+                            <img src={ingredient.image} alt={ingredient.name}/>
+                        </picture>) : null
+                }
             </div>
             <div className={burgerIngredients.price}>
                 <span className='text text_type_digits-default pr-2 mt-1 mb-1'>{ingredient.price}</span>
                 <CurrencyIcon type="primary"/>
             </div>
             <div className={`text text_type_main-default ${burgerIngredients.name}`}>{ingredient.name}</div>
-        </Link>) : (<></>)
+        </Link>
     );
-}
-
-interface ICategoryProps {
-    children: string;
-    data: Array<TIngredient>;
-    openModal: (ingredient: TIngredient) => void
 }
 
 const Category = React.forwardRef<HTMLElement, ICategoryProps>((props, ref) => {

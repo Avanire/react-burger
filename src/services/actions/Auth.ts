@@ -20,7 +20,8 @@ import {
 } from "../../utils/burger-api";
 import {toast} from "react-toast";
 import {getError} from "../../utils/utils";
-import {IDispatch, TTokenSuccess, TUserAuth} from "../../utils/prop-types";
+import {TTokenSuccess, TUserAuth} from "../../utils/prop-types";
+import {AppDispatch} from "../store";
 
 export const authRequest = createAction<boolean>(AUTH_REQUEST);
 export const authFailed = createAction<boolean>(AUTH_FAILED);
@@ -43,7 +44,7 @@ export const resetPasswordEnter = createAction<boolean>(RESET_PASSWORD_ENTER);
 export const resetPasswordSuccess = createAction<boolean>(RESET_PASSWORD_SUCCESS);
 
 export const registration = (email: string, password: string, name: string) => {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
@@ -53,12 +54,6 @@ export const registration = (email: string, password: string, name: string) => {
                 dispatch({
                     type: registrationSuccess.type,
                     payload: res
-                    /*user: {
-                        name: res.user.name,
-                        email: res.user.email
-                    },
-                    accessToken: res.accessToken,
-                    refreshToken: res.refreshToken*/
                 });
             } else {
                 dispatch({
@@ -76,7 +71,7 @@ export const registration = (email: string, password: string, name: string) => {
 }
 
 export const login = (email: string, password: string) => {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
@@ -86,9 +81,6 @@ export const login = (email: string, password: string) => {
                 dispatch({
                     type: loginSuccess.type,
                     payload: res
-                    /*user: res.user,
-                    accessToken: res.accessToken,
-                    refreshToken: res.refreshToken*/
                 });
             } else {
                 dispatch({
@@ -105,7 +97,7 @@ export const login = (email: string, password: string) => {
 }
 
 export const refreshToken = () => {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
@@ -115,8 +107,6 @@ export const refreshToken = () => {
                 dispatch({
                     type: refreshTokenSuccess.type,
                     payload: res
-                    /*accessToken: res.accessToken,
-                    refreshToken: res.refreshToken*/
                 });
             } else {
                 dispatch({
@@ -132,7 +122,7 @@ export const refreshToken = () => {
 }
 
 export const logout = () => {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
@@ -156,7 +146,7 @@ export const logout = () => {
 }
 
 export const getUser = () => {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
@@ -175,7 +165,7 @@ export const getUser = () => {
             }
         }).catch((e) => {
             if (e.message === 'jwt expired' || e.message === 'jwt malformed') {
-                refreshToken();
+                dispatch(refreshToken());
             } else {
                 dispatch({
                     type: authFailed.type,
@@ -187,7 +177,7 @@ export const getUser = () => {
 }
 
 export const updateUser = (email: string, password: string, name: string) => {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
@@ -213,7 +203,7 @@ export const updateUser = (email: string, password: string, name: string) => {
 }
 
 export const forgotPassword = (email: string) => {
-    return function(dispatch: (obj: IDispatch) => void) {
+    return function(dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
@@ -238,7 +228,7 @@ export const forgotPassword = (email: string) => {
 }
 
 export const resetPassword = (password: string, code: string) => {
-    return function (dispatch: (obj: IDispatch) => void) {
+    return function (dispatch: AppDispatch) {
         dispatch({
             type: authRequest.type
         });
