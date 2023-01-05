@@ -1,21 +1,22 @@
-import React, {useState} from "react";
+import React, {SyntheticEvent, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {Link, useLocation} from "react-router-dom";
 import {login} from "../../services/actions/Auth";
+import {useAppDispatch} from "../../hooks/hooks";
+import {ILocationFrom} from "../../utils/prop-types";
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordShow, setPasswordShow] = useState(false);
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordShow, setPasswordShow] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
+    const location = useLocation<ILocationFrom>();
 
     const onPassIconClick = () => {
         setPasswordShow(!passwordShow);
     }
 
-    const handleEnter = (e) => {
+    const handleEnter = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(login(email, password));
     }
@@ -43,7 +44,8 @@ const Login = () => {
                 Вы — новый пользователь? <Link to='/register' className='link'>Зарегистрироваться</Link>
             </p>
             <p className='text text_type_main-default text_color_inactive'>
-                Забыли пароль? <Link to={{ pathname:'/forgot-password', from: history.location.state?.from }} className='link'>Восстановить пароль</Link>
+                Забыли пароль? <Link to={{pathname: '/forgot-password', state: location.state?.from}}
+                                     className='link'>Восстановить пароль</Link>
             </p>
         </>
     );

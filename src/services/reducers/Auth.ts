@@ -13,8 +13,9 @@ import {
     updateUserSuccess
 } from '../actions/Auth';
 import {deleteCookie, getCookie, setCookie} from "../../utils/utils";
+import {IInitialStateAuth} from "../../utils/prop-types";
 
-const initialState = {
+const initialState: IInitialStateAuth = {
     user: {
         name: '',
         email: ''
@@ -42,28 +43,28 @@ export const authReducer = createReducer(initialState, builder => {
             }
         })
         .addCase(registrationSuccess, (state, action) => {
-            setCookie('refreshToken', action.refreshToken);
-            setCookie('token', action.accessToken.split('Bearer ')[1]);
+            setCookie('refreshToken', action.payload.refreshToken);
+            setCookie('token', action.payload.accessToken.split('Bearer ')[1]);
 
             return {
                 ...state,
                 user: {
-                    email: action.user.email,
-                    name: action.user.name
+                    email: action.payload.user.email,
+                    name: action.payload.user.name
                 },
                 request: false,
                 failed: false
             }
         })
         .addCase(loginSuccess, (state, action) => {
-            setCookie('refreshToken', action.refreshToken);
-            setCookie('token', action.accessToken.split('Bearer ')[1]);
+            setCookie('refreshToken', action.payload.refreshToken);
+            setCookie('token', action.payload.accessToken.split('Bearer ')[1]);
 
             return {
                 ...state,
                 user: {
-                    email: action.user.email,
-                    name: action.user.name
+                    email: action.payload.user.email,
+                    name: action.payload.user.name
                 },
                 request: false,
                 failed: false,
@@ -71,8 +72,8 @@ export const authReducer = createReducer(initialState, builder => {
             }
         })
         .addCase(refreshTokenSuccess, (state, action) => {
-            setCookie('refreshToken', action.refreshToken);
-            setCookie('token', action.accessToken.split('Bearer ')[1]);
+            setCookie('refreshToken', action.payload.refreshToken);
+            setCookie('token', action.payload.accessToken.split('Bearer ')[1]);
 
             return {
                 ...state,
@@ -99,8 +100,8 @@ export const authReducer = createReducer(initialState, builder => {
             return {
                 ...state,
                 user: {
-                    email: action.user.email,
-                    name: action.user.name
+                    email: action.payload.user.email,
+                    name: action.payload.user.name
                 },
                 request: false,
                 failed: false
@@ -110,8 +111,8 @@ export const authReducer = createReducer(initialState, builder => {
             return {
                 ...state,
                 user: {
-                    email: action.user.email,
-                    name: action.user.name
+                    email: action.payload.user.email,
+                    name: action.payload.user.name
                 },
                 request: false,
                 failed: false

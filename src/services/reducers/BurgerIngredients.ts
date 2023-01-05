@@ -12,8 +12,9 @@ import {
     removeIngredient,
     removeModalIngredient,
 } from '../actions/BurgerIngredients';
+import {IInitialStateBurgerIngredients} from "../../utils/prop-types";
 
-const initialState = {
+const initialState: IInitialStateBurgerIngredients = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsFailed: false,
@@ -61,46 +62,61 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
         .addCase(addIngredient, (state, action) => {
             const ingredient = state.ingredients.find(item => item._id === action.payload._id);
 
-            const newIngredient = {
-                ...ingredient,
-                count: ingredient.count ? ingredient.count + 1 : 1
-            }
-
-            return {
-                ...state,
-                ingredients: [...state.ingredients].map(item => item._id === newIngredient._id ? newIngredient : item),
-                constructorIngredients: [...state.constructorIngredients, {...ingredient, constructorId: uuid()}]
+            if (ingredient) {
+                return {
+                    ...state,
+                    ingredients: [...state.ingredients].map(item => item._id === ingredient._id ? {
+                        ...ingredient,
+                        count: ingredient.count ? ingredient.count + 1 : 1
+                    } : item),
+                    constructorIngredients: [...state.constructorIngredients, {...ingredient, constructorId: uuid()}]
+                }
+            } else {
+                throw new Error('Ingredient not found');
             }
         })
         .addCase(removeIngredient, (state, action) => {
             const ingredient = state.ingredients.find(item => item._id === action.payload._id);
 
-            const newIngredient = {
-                ...ingredient,
-                count: ingredient.count - 1,
-            }
-
-            return {
-                ...state,
-                ingredients: [...state.ingredients].map(item => item._id === newIngredient._id ? newIngredient : item),
-                constructorIngredients: [...state.constructorIngredients].filter(item => item.constructorId !== action.payload.constructorId)
+            if (ingredient) {
+                return {
+                    ...state,
+                    ingredients: [...state.ingredients].map(item => item._id === ingredient._id ? {
+                        ...ingredient,
+                        count: ingredient.count ? ingredient.count - 1 : 0
+                    } : item),
+                    constructorIngredients: [...state.constructorIngredients].filter(item => item.constructorId !== action.payload.constructorId)
+                }
             }
         })
         .addCase(addIngredientBun, (state, action) => {
-            const oldBun = {
-                ...state.constructorBun,
-                count: 0
-            }
+            if (state.constructorBun) {
+                const oldBun = {
+                    ...state.constructorBun,
+                    count: 0
+                }
 
-            const bun = {
-                ...action.payload,
-                count: action.payload.count ? 2 : 2,
-            }
+                const bun = {
+                    ...action.payload,
+                    count: action.payload.count ? 2 : 2,
+                }
 
-            return {
-                ...state,
-                ingredients: [...state.ingredients].map(item => item._id === oldBun._id ? oldBun : item).map(item => item._id === bun._id ? bun : item),
-                constructorBun: bun
+                return {
+                    ...state,
+                    ingredients: [...state.ingredients].map(item => item._id === oldBun._id ? oldBun : item).map(item => item._id === bun._id ? bun : item),
+                    constructorBun: bun
+                }
+            } else {
+                const bun = {
+                    ...action.payload,
+                    count: action.payload.count ? 2 : 2,
+                }
+
+                return {
+                    ...state,
+                    ingredients: [...state.ingredients].map(item => item._id === bun._id ? bun : item),
+                    constructorBun: bun
+                }
             }
         })
         .addCase(changePositions, (state, action) => {
@@ -119,7 +135,10 @@ export const burgerIngredientsReducer = createReducer(initialState, (builder) =>
                 ...state,
                 constructorIngredients: [],
                 constructorBun: null,
-                ingredients: [...state.ingredients].map(item => item.count > 0 ? {...item, count: 0} : item)
+                ingredients: [...state.ingredients].map(item => item.count && item.count > 0 ? {
+                    ...item,
+                    count: 0
+                } : item)
             }
         })
 });

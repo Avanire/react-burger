@@ -1,7 +1,8 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {orderRequest, orderSuccess, orderFailed} from '../actions/OrderDetails';
+import {IInitialStateOrderDetails} from "../../utils/prop-types";
 
-const initialState = {
+const initialState: IInitialStateOrderDetails = {
     number: null,
     orderRequest: false,
     orderFailed: false

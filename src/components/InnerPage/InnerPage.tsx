@@ -1,7 +1,8 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from "./InnerPage.module.css";
+import {TReactChildren} from "../../utils/prop-types";
 
-const InnerPage = ({children}) => {
+const InnerPage: FC<TReactChildren> = ({children}) => {
 
     return (
         <section className={styles.wrapper}>

@@ -1,21 +1,21 @@
-import React, {useCallback, useState} from "react";
+import React, {SyntheticEvent, useCallback, useState} from "react";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import {registration} from "../../services/actions/Auth";
+import {useAppDispatch} from "../../hooks/hooks";
 
 const Registration = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordShow, setPasswordShow] = useState(false);
-    const dispatch = useDispatch();
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordShow, setPasswordShow] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     const onPassIconClick = () => {
         setPasswordShow(!passwordShow);
     }
 
-    const handleClick = useCallback((e) => {
+    const handleClick = useCallback((e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(registration(email, password, name));
     }, [dispatch, email, password, name]);
