@@ -17,35 +17,35 @@ export type TIngredient = {
 };
 
 export type TChangesPositionObject = {
-    card: TIngredient;
-    index: number;
-    atIndex: number;
+    readonly card: TIngredient;
+    readonly index: number;
+    readonly atIndex: number;
 };
 
 export type TBurgerConstructorElement = {
-    ingredient: TIngredient;
-    handleRemove: (ingredient: TIngredient) => void;
-    findCard: (id: string) => { card: TIngredient, index: number };
-    moveCard: (id: string, atIndex: number) => void;
+    readonly ingredient: TIngredient;
+    readonly handleRemove: (ingredient: TIngredient) => void;
+    readonly findCard: (id: string) => { card: TIngredient, index: number };
+    readonly moveCard: (id: string, atIndex: number) => void;
 };
 
 export type TMoveCard = {
-    id: string;
-    originalIndex: number;
+    readonly id: string;
+    readonly originalIndex: number;
 };
 
 export type TReactChildren = {
-    children?: ReactElement;
+    readonly children?: ReactElement;
 };
 
 export type TModal = {
-    onClose: () => void;
+    readonly onClose: () => void;
 } & TReactChildren;
 
 export type TProtectedRoute = {
-    onlyAuth: boolean;
-    path: string;
-    exact: boolean;
+    readonly onlyAuth: boolean;
+    readonly path: string;
+    readonly exact: boolean;
 } & TReactChildren;
 
 export type TBody = {
@@ -53,15 +53,15 @@ export type TBody = {
 };
 
 export type TUserAuth = {
-    user: {
-        name: string,
-        email: string
+    readonly user: {
+        readonly name: string,
+        readonly email: string
     };
 } & TTokenSuccess;
 
 export type TTokenSuccess = {
-    accessToken: string;
-    refreshToken: string;
+    readonly accessToken: string;
+    readonly refreshToken: string;
 };
 
 export type TErrors = {
@@ -69,65 +69,65 @@ export type TErrors = {
 };
 
 type TOrder = {
-    number: number
+    readonly number: number
 };
 
 export type TResponseBody<> = {
-    success: boolean;
-    message?: string;
-    data?: Array<TIngredient>;
-    order?: TOrder;
+    readonly success: boolean;
+    readonly message?: string;
+    readonly data?: Array<TIngredient>;
+    readonly order?: TOrder;
 };
 
 export interface IInitialStateBurgerIngredients {
-    ingredients: Array<TIngredient>;
-    ingredientsRequest: boolean;
-    ingredientsFailed: boolean;
-    constructorIngredients: Array<TIngredient>;
-    constructorBun: TIngredient | null;
-    modalIngredient: TIngredient | null;
+    readonly ingredients: Array<TIngredient>;
+    readonly ingredientsRequest: boolean;
+    readonly ingredientsFailed: boolean;
+    readonly constructorIngredients: Array<TIngredient>;
+    readonly constructorBun: TIngredient | null;
+    readonly modalIngredient: TIngredient | null;
 }
 
 export interface IInitialStateOrderDetails {
-    number: null | number;
-    orderRequest: boolean;
-    orderFailed: boolean;
+    readonly number: null | number;
+    readonly orderRequest: boolean;
+    readonly orderFailed: boolean;
 }
 
 export interface IInitialStateAuth {
-    user: {
-        name: string,
-        email: string
+    readonly user: {
+        readonly name: string,
+        readonly email: string
     };
-    isAuth: boolean;
-    request: boolean;
-    failed: boolean;
-    isResetPass: boolean;
+    readonly isAuth: boolean;
+    readonly request: boolean;
+    readonly failed: boolean;
+    readonly isResetPass: boolean;
 }
 
 interface ILocation {
-    hash: string;
-    key: string;
-    pathname: string;
-    search: string;
-    state: Object | undefined;
+    readonly hash: string;
+    readonly key: string;
+    readonly pathname: string;
+    readonly search: string;
+    readonly state: Object | undefined;
 }
 
 export interface IPopUp {
-    popUp: ILocation;
+    readonly popUp: ILocation;
 }
 
 export interface ILocationFrom {
-    from: ILocation;
+    readonly from: ILocation;
 }
 
 export interface ICardProps {
-    ingredient: TIngredient;
-    openModal: (ingredient: TIngredient) => void
+    readonly ingredient: TIngredient;
+    readonly openModal: (ingredient: TIngredient) => void
 }
 
 export interface ICategoryProps {
-    children: string;
-    data: Array<TIngredient>;
-    openModal: (ingredient: TIngredient) => void
+    readonly children: string;
+    readonly data: Array<TIngredient>;
+    readonly openModal: (ingredient: TIngredient) => void
 }

@@ -23,25 +23,25 @@ import {getError} from "../../utils/utils";
 import {TTokenSuccess, TUserAuth} from "../../utils/prop-types";
 import {AppDispatch} from "../store";
 
-export const authRequest = createAction<boolean>(AUTH_REQUEST);
-export const authFailed = createAction<boolean>(AUTH_FAILED);
+export const authRequest = createAction<boolean, typeof AUTH_REQUEST>(AUTH_REQUEST);
+export const authFailed = createAction<boolean, typeof AUTH_FAILED>(AUTH_FAILED);
 
-export const registrationSuccess = createAction<TUserAuth>(REGISTRATION_SUCCESS);
+export const registrationSuccess = createAction<TUserAuth, typeof REGISTRATION_SUCCESS>(REGISTRATION_SUCCESS);
 
-export const loginSuccess = createAction<TUserAuth>(LOGIN_SUCCESS);
+export const loginSuccess = createAction<TUserAuth, typeof LOGIN_SUCCESS>(LOGIN_SUCCESS);
 
-export const refreshTokenSuccess = createAction<TTokenSuccess>(REFRESH_TOKEN_SUCCESS);
+export const refreshTokenSuccess = createAction<TTokenSuccess, typeof REFRESH_TOKEN_SUCCESS>(REFRESH_TOKEN_SUCCESS);
 
-export const logoutSuccess = createAction<boolean>(LOGOUT_SUCCESS);
+export const logoutSuccess = createAction<boolean, typeof LOGOUT_SUCCESS>(LOGOUT_SUCCESS);
 
-export const getUserSuccess = createAction<TUserAuth>(GET_USER);
+export const getUserSuccess = createAction<TUserAuth, typeof GET_USER>(GET_USER);
 
-export const updateUserSuccess = createAction<TUserAuth>(UPDATE_USER);
+export const updateUserSuccess = createAction<TUserAuth, typeof UPDATE_USER>(UPDATE_USER);
 
-export const forgotPasswordSuccess = createAction<boolean>(FORGOT_PASSWORD);
-export const resetPasswordEnter = createAction<boolean>(RESET_PASSWORD_ENTER);
+export const forgotPasswordSuccess = createAction<boolean, typeof FORGOT_PASSWORD>(FORGOT_PASSWORD);
+export const resetPasswordEnter = createAction<boolean, typeof RESET_PASSWORD_ENTER>(RESET_PASSWORD_ENTER);
 
-export const resetPasswordSuccess = createAction<boolean>(RESET_PASSWORD_SUCCESS);
+export const resetPasswordSuccess = createAction<boolean, typeof RESET_PASSWORD_SUCCESS>(RESET_PASSWORD_SUCCESS);
 
 export const registration = (email: string, password: string, name: string) => {
     return function (dispatch: AppDispatch) {
