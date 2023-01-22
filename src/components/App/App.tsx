@@ -1,6 +1,7 @@
 import React from 'react';
 import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {
+    FeedPage,
     ForgotPasswordPage,
     HomePage,
     IngredientDetailsPage,
@@ -48,6 +49,9 @@ const App = () => {
                 <ProtectedRoute path='/profile/orders' exact onlyAuth={true}>
                     <ProfileOrdersPage/>
                 </ProtectedRoute>
+                <Route path="/feed" exact>
+                    <FeedPage/>
+                </Route>
             </Switch>
             <ToastContainer delay={3000} />
         </>

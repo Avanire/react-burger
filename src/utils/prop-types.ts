@@ -98,6 +98,7 @@ export interface IInitialStateAuth {
     readonly user: {
         readonly name: string,
         readonly email: string
+        readonly token: string | undefined;
     };
     readonly isAuth: boolean;
     readonly request: boolean;
@@ -130,4 +131,34 @@ export interface ICategoryProps {
     readonly children: string;
     readonly data: Array<TIngredient>;
     readonly openModal: (ingredient: TIngredient) => void
+}
+
+export interface IFeedOrders {
+    readonly _id: string;
+    readonly ingredients: ReadonlyArray<string>;
+    readonly status: string;
+    readonly number: number;
+    readonly createdAt: string;
+    readonly name: string;
+}
+
+export interface IWsFeedOrders {
+    readonly orders: IFeedOrders;
+    readonly total: number;
+    readonly totalToday: number;
+}
+
+export type TWSState = {
+    wsConnected: boolean;
+    orders: ReadonlyArray<IFeedOrders>;
+    total: number;
+    totalToday: number;
+    error?: Event;
+}
+
+export interface IFeedCard {
+    readonly number: number;
+    readonly time: string;
+    readonly name: string;
+    readonly ingredientsIds: ReadonlyArray<string>;
 }

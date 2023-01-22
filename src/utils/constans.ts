@@ -1,5 +1,6 @@
 export const ESC_KEYCODE: string = 'Escape';
 export const API_URL: string = 'https://norma.nomoreparties.space/api';
+export const WS_URL: string = 'wss://norma.nomoreparties.space/orders';
 
 export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
@@ -37,3 +38,10 @@ export const WRONG_EMAIL_CODE: string = 'Неправильный код из п
 export const INCORRECT_EMAIL_OR_PASSWORD: string = 'Неправильный логин или пароль';
 export const INGREDIENT_NOT_FOUND: string = 'Не найден ингредиент для добавления в конструктор. Перезагрузите страницу';
 export const DEFAULT_ERROR: string = 'Произошла ошибка';
+
+export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
+export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' = 'WS_CONNECTION_SUCCESS';
+export const WS_CONNECTION_ERROR: 'WS_CONNECTION_ERROR' = 'WS_CONNECTION_ERROR';
+export const WS_CONNECTION_CLOSED: 'WS_CONNECTION_CLOSED' = 'WS_CONNECTION_CLOSED';
+export const WS_GET_MESSAGE: 'WS_GET_MESSAGE' = 'WS_GET_MESSAGE';
+export const WS_SEND_MESSAGE: 'WS_SEND_MESSAGE' = 'WS_SEND_MESSAGE';

@@ -15,7 +15,7 @@ const AppHeader = () => {
                 </span>
                 <span className={`${appHeader.item} text text_type_main-default`}>
                     <ListIcon type="secondary"/>
-                    <NavLink exact to='/order' activeClassName={appHeader.item_active}
+                    <NavLink exact to='/feed' activeClassName={appHeader.item_active}
                              className={`${appHeader.item} pl-2`}>Лента заказов</NavLink>
                 </span>
             </nav>

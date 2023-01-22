@@ -1,0 +1,19 @@
+.container {
+    width: 1240px;
+    margin: 0 auto;
+}
+.feed {
+    display: flex;
+}
+.orders {
+    height: 716px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+.tables {
+    display: flex;
+    column-gap: 32px;
+}
