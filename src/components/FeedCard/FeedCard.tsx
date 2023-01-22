@@ -3,6 +3,7 @@ import styles from './FeedCard.module.css';
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
 import {IFeedCard} from "../../utils/prop-types";
 import {useAppSelector} from "../../hooks/hooks";
+import uuid from "react-uuid";
 
 const FeedCard: FC<IFeedCard> = ({number, time, name, ingredientsIds}) => {
     const ingredients = useAppSelector(state => state.burgerIngredients.ingredients);
@@ -33,7 +34,7 @@ const FeedCard: FC<IFeedCard> = ({number, time, name, ingredientsIds}) => {
                     className={`${styles.ingredientImage} mr-6`}>
                     {
                         orderIngredient.slice(0, 5).map((item, index) => item &&
-                            <span className={`${styles.image}`} style={{zIndex: `${1000 - index}`}}><img
+                            <span key={uuid()} className={`${styles.image}`} style={{zIndex: `${1000 - index}`}}><img
                                 src={item.image_mobile} alt={item.name}/></span>)
                     }
                     {

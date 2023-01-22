@@ -6,6 +6,7 @@ import FeedCard from "../FeedCard/FeedCard";
 import {getBurgerIngredients} from "../../services/actions/BurgerIngredients";
 import FeedTable from "../FeedTable/FeedTable";
 import FeedTotalBlock from "../FeedTotalBlock/FeedTotalBlock";
+import uuid from "react-uuid";
 
 const Feed: FC = () => {
     const dispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const Feed: FC = () => {
             <h1 className={`text text_type_main-large mb-5`}>Лента заказов</h1>
             <div className={`${styles.feed}`}>
                 <div className={`${styles.orders} custom-scroll mr-15 pr-2`}>
-                    {orders.flat().map(item => <FeedCard number={item.number} time={item.createdAt} name={item.name} ingredientsIds={item.ingredients} />)}
+                    {orders.flat().map(item => <FeedCard key={uuid()} number={item.number} time={item.createdAt} name={item.name} ingredientsIds={item.ingredients} />)}
                 </div>
                 <div>
                     <div className={`${styles.tables} mb-15`}>

@@ -13,15 +13,9 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
 
             if (type === wsInit.type && user.token) {
                 socket = new WebSocket(`${payload}?token=${user.token}`);
-
-            } else if (type === wsInit) {
-
+            } else if (type === wsInit.type) {
                 socket = new WebSocket(payload);
             }
-
-            /*if (type === wsInit.type) {
-                socket = new WebSocket(wsUrl);
-            }*/
 
             if (socket) {
 

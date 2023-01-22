@@ -171,7 +171,7 @@ export const getUser = () => {
             } else {
                 dispatch({
                     type: authFailed.type,
-                    payload: e.message()
+                    payload: e.message
                 });
             }
         });
