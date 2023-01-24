@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {orderRequest, orderSuccess, orderFailed} from '../actions/OrderDetails';
+import {orderRequest, orderSuccess, orderFailed} from '../actions/CheckDetail';
 import {IInitialStateOrderDetails} from "../../utils/prop-types";
 
 const initialState: IInitialStateOrderDetails = {
@@ -8,7 +8,7 @@ const initialState: IInitialStateOrderDetails = {
     orderFailed: false
 }
 
-export const orderDetailsReducer = createReducer(initialState, (builder) => {
+export const checkDetailReducer = createReducer(initialState, (builder) => {
     builder
         .addCase(orderRequest, (state) => {
             return {

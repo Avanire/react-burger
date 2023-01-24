@@ -7,5 +7,6 @@ import ProfilePage from './Profile/Profile';
 import IngredientDetailsPage from './IngredientDetails/IngredientDetails';
 import ProfileOrdersPage from './ProfileOrdersPage/ProfileOrdersPage';
 import FeedPage from "./Feed/Feed";
+import OrderDetailPage from './OrderDetail/OrderDetail';
 
-export {HomePage, LoginPage, RegistrationPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientDetailsPage, ProfileOrdersPage, FeedPage};
+export {HomePage, LoginPage, RegistrationPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientDetailsPage, ProfileOrdersPage, FeedPage, OrderDetailPage};

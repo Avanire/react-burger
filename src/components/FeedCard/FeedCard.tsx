@@ -1,16 +1,20 @@
-import React, {FC, useMemo} from "react";
+import React, {FC, useEffect, useMemo} from "react";
 import styles from './FeedCard.module.css';
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
 import {IFeedCard} from "../../utils/prop-types";
-import {useAppSelector} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import uuid from "react-uuid";
+import {getBurgerIngredients} from "../../services/actions/BurgerIngredients";
+import {Link, useHistory} from "react-router-dom";
 
-const FeedCard: FC<IFeedCard> = ({number, time, name, ingredientsIds}) => {
+const FeedCard: FC<IFeedCard> = ({order, handleOpenModal}) => {
     const ingredients = useAppSelector(state => state.burgerIngredients.ingredients);
+    const dispatch = useAppDispatch();
+    const history = useHistory();
 
     const orderIngredient = useMemo(() => {
-        return ingredientsIds.map(item => ingredients.find(i => i._id === item));
-    }, [ingredientsIds]);
+        return order.ingredients.map(item => ingredients.find(i => i._id === item));
+    }, [order.ingredients]);
 
     const totalPrice = useMemo(() => {
         return orderIngredient.reduce((acc, cur) => {
@@ -22,13 +26,19 @@ const FeedCard: FC<IFeedCard> = ({number, time, name, ingredientsIds}) => {
         }, 0);
     }, [orderIngredient]);
 
+    useEffect(() => {
+        if (!ingredients.length) {
+            dispatch(getBurgerIngredients());
+        }
+    }, [dispatch, ingredients]);
+
     return (
-        <section className={`${styles.card} p-6`}>
+        <Link to={{pathname: `/feed/${order._id}`, state: {popUp: history.location}}} className={`${styles.card} p-6`} onClick={() => handleOpenModal(order)}>
             <div className={`${styles.order} mb-6`}>
-                <span className={`text text_type_digits-default`}>#{number}</span>
-                <span className={`text text_type_main-default text_color_inactive`}><FormattedDate date={new Date(time)} /></span>
+                <span className={`text text_type_digits-default`}>#{order.number}</span>
+                <span className={`text text_type_main-default text_color_inactive`}><FormattedDate date={new Date(order.createdAt)} /></span>
             </div>
-            <div className={`text text_type_main-medium mb-6`}>{name}</div>
+            <div className={`text text_type_main-medium mb-6`}>{order.name}</div>
             <div className={`${styles.ingredients}`}>
                 <div
                     className={`${styles.ingredientImage} mr-6`}>
@@ -49,7 +59,7 @@ const FeedCard: FC<IFeedCard> = ({number, time, name, ingredientsIds}) => {
                 <div className={`${styles.price} text text_type_digits-default`}>{totalPrice} <CurrencyIcon
                     type="primary"/></div>
             </div>
-        </section>
+        </Link>
     );
 }
 

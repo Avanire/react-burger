@@ -5,7 +5,7 @@ import {
     ForgotPasswordPage,
     HomePage,
     IngredientDetailsPage,
-    LoginPage, ProfileOrdersPage,
+    LoginPage, OrderDetailPage, ProfileOrdersPage,
     ProfilePage,
     RegistrationPage
 } from '../../pages';
@@ -51,6 +51,9 @@ const App = () => {
                 </ProtectedRoute>
                 <Route path="/feed" exact>
                     <FeedPage/>
+                </Route>
+                <Route path={`/feed/:id`} exact>
+                    <OrderDetailPage />
                 </Route>
             </Switch>
             <ToastContainer delay={3000} />

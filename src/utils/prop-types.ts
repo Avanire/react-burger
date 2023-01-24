@@ -157,8 +157,6 @@ export type TWSState = {
 }
 
 export interface IFeedCard {
-    readonly number: number;
-    readonly time: string;
-    readonly name: string;
-    readonly ingredientsIds: ReadonlyArray<string>;
+    readonly order: IFeedOrders;
+    readonly handleOpenModal: (order: IFeedOrders) => void;
 }
