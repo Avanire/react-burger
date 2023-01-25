@@ -1,14 +1,16 @@
 import React, {SyntheticEvent} from "react";
 import styles from "../Profile/Profile.module.css";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useHistory} from "react-router-dom";
 import {logout} from "../../services/actions/Auth";
 import {useAppDispatch} from "../../hooks/hooks";
 
 const ProfileMenu = () => {
     const dispatch = useAppDispatch();
+    const history = useHistory();
 
     const handleLogout = (e: SyntheticEvent) => {
         e.preventDefault();
+        history.push('/login');
         dispatch(logout());
     }
 

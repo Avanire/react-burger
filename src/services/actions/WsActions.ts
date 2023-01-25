@@ -17,11 +17,11 @@ export const onClose = createAction<Event, typeof WS_CONNECTION_CLOSED>(WS_CONNE
 export const onMessage = createAction<IWsFeedOrders, typeof WS_GET_MESSAGE>(WS_GET_MESSAGE);
 
 
-export function wsInitAllOrders() {
+export function wsInitAllOrders(endpoint?: string) {
     return function (dispatch: AppDispatch) {
         dispatch({
             type: wsInit.type,
-            payload: `${WS_URL}/all`
+            payload: `${WS_URL}${endpoint ? '/' + endpoint : ''}`
         })
     }
 }

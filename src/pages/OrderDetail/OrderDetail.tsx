@@ -7,7 +7,6 @@ const OrderDetailPage: FC = () => {
         <InnerPage>
             <OrderDetail />
         </InnerPage>
-
     );
 }
 

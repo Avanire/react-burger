@@ -150,13 +150,13 @@ export interface IWsFeedOrders {
 
 export type TWSState = {
     wsConnected: boolean;
-    orders: ReadonlyArray<IFeedOrders>;
+    orders: Array<IFeedOrders>;
     total: number;
     totalToday: number;
     error?: Event;
 }
 
 export interface IFeedCard {
-    readonly order: IFeedOrders;
+    order: IFeedOrders;
     readonly handleOpenModal: (order: IFeedOrders) => void;
 }

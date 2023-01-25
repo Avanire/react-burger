@@ -164,7 +164,7 @@ const BurgerConstructor = () => {
                         />
                     ) : (<div className={`${burgerConstructor.skeleton_constructor} constructor-element ml-8`}>
                             <span className={`constructor-element__row`}>
-                                <span className="constructor-element__text">Выберите ингридиент</span>
+                                <span className="constructor-element__text">Выберите ингредиент</span>
                             </span>
                     </div>)}
                 </ul>

@@ -10,6 +10,7 @@ import {useHistory} from "react-router-dom";
 import OrderDetail from "../OrderDetail/OrderDetail";
 import {IFeedOrders} from "../../utils/prop-types";
 import {addOrderModal, removeOrderModal} from "../../services/actions/OrderDetail";
+import {GridLoader} from "react-spinners";
 
 const Feed: FC = () => {
     const dispatch = useAppDispatch();
@@ -18,15 +19,19 @@ const Feed: FC = () => {
     const history = useHistory();
 
     const readyOrders = useMemo(() => {
-        return orders.flat().filter(item => item.status === 'done').map(item => item.number);
+        if (orders) {
+            return orders.flat().filter(item => item.status === 'done').map(item => item.number);
+        }
     }, [orders]);
 
     const createdOrders = useMemo(() => {
-        return orders.flat().filter(item => item.status === 'created').map(item => item.number);
+        if (orders) {
+            return orders.flat().filter(item => item.status === 'created').map(item => item.number);
+        }
     }, [orders]);
 
     useEffect(() => {
-        dispatch(wsInitAllOrders());
+        dispatch(wsInitAllOrders('all'));
 
         return () => {
             dispatch({
@@ -52,20 +57,20 @@ const Feed: FC = () => {
     }
 
     return (
-        <>
+        orders && <>
             <section className={`${styles.container} pt-10`}>
                 <h1 className={`text text_type_main-large mb-5`}>Лента заказов</h1>
                 <div className={`${styles.feed}`}>
                     <div className={`${styles.orders} custom-scroll mr-15 pr-2`}>
-                        {orders.flat().map(item => <FeedCard key={item._id}
+                        {orders.length ? orders.flat().map(item => <FeedCard key={item._id}
                                                              order={item}
                                                              handleOpenModal={handleOpenModal}
-                        />)}
+                        />) : <div className={styles.loader}><GridLoader color="#8a37d1"/></div>}
                     </div>
                     <div>
                         <div className={`${styles.tables} mb-15`}>
-                            <FeedTable title='Готовые' orderNumbers={readyOrders} ready={true}/>
-                            <FeedTable title='В работе' orderNumbers={createdOrders}/>
+                            {readyOrders ? <FeedTable title='Готовые' orderNumbers={readyOrders} ready={true}/> : <GridLoader color="#8a37d1"/>}
+                            {createdOrders ? <FeedTable title='В работе' orderNumbers={createdOrders}/> : <GridLoader color="#8a37d1"/>}
                         </div>
                         <div className={`mb-15`}>
                             <FeedTotalBlock name='Выполнено за все время' number={total}/>

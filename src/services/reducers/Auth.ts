@@ -94,7 +94,7 @@ export const authReducer = createReducer(initialState, builder => {
                     email: '',
                     token: undefined
                 },
-                isAuth: !!getCookie('token'),
+                isAuth: false,
                 request: false,
                 failed: false,
                 isResetPass: false

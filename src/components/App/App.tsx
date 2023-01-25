@@ -14,6 +14,7 @@ import ResetPasswordPage from "../../pages/ResetPassword/ResetPassword";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {ToastContainer} from "react-toast";
 import {IPopUp} from "../../utils/prop-types";
+import Page404 from "../../pages/Page404/Page404";
 
 const App = () => {
     const history = useHistory();
@@ -54,6 +55,12 @@ const App = () => {
                 </Route>
                 <Route path={`/feed/:id`} exact>
                     <OrderDetailPage />
+                </Route>
+                <ProtectedRoute path={`/profile/orders/:id`} exact onlyAuth={true}>
+                    <OrderDetailPage />
+                </ProtectedRoute>
+                <Route path='*'>
+                    <Page404 />
                 </Route>
             </Switch>
             <ToastContainer delay={3000} />

@@ -1,24 +1,23 @@
 import type {Middleware, MiddlewareAPI} from 'redux';
 import {AppDispatch, RootState, TWsActions} from "../store";
+import {getCookie} from "../../utils/utils";
 
 export const socketMiddleware = (wsActions: TWsActions): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
         return next => action => {
-            const {dispatch, getState} = store;
+            const {dispatch} = store;
             const {type, payload} = action;
             const {wsInit, onOpen, onClose, onError, onMessage} = wsActions;
-            const {user} = getState().auth;
 
-            if (type === wsInit.type && user.token) {
-                socket = new WebSocket(`${payload}?token=${user.token}`);
+            if (type === wsInit.type && getCookie('token')) {
+                socket = new WebSocket(`${payload}?token=${getCookie('token')}`);
             } else if (type === wsInit.type) {
                 socket = new WebSocket(payload);
             }
 
-            if (socket) {
-
+            if (socket?.url) {
                 socket.onopen = () => {
                     dispatch({type: onOpen.type});
                 };
@@ -35,8 +34,8 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
                     dispatch({type: onMessage.type, payload: restParsedData});
                 };
 
-                socket.onclose = event => {
-                    dispatch({type: onClose.type, payload: event});
+                socket.onclose = () => {
+                    dispatch({type: onClose.type});
                 };
             }
 

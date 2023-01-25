@@ -25,14 +25,15 @@ export const wsReducer = createReducer(initialState, (builder) => {
                 wsConnected: false
             }
         })
-        .addCase(onClose, (state) => {
+        .addCase(onClose, (state, action) => {
             return {
                 ...state,
-                error: undefined,
+                error: action.payload,
                 wsConnected: false
             }
         })
         .addCase(onMessage, (state, action) => {
+
             return {
                 ...state,
                 orders: [action.payload.orders],

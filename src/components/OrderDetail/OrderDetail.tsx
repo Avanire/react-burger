@@ -6,6 +6,7 @@ import {useParams} from "react-router-dom";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {onClose, wsInitAllOrders} from "../../services/actions/WsActions";
 import uuid from "react-uuid";
+import {GridLoader} from "react-spinners";
 
 export interface IOrderDetail {
     readonly name?: string;
@@ -79,7 +80,7 @@ const OrderDetail: FC = () => {
 
     useEffect(() => {
         if (!orders.length) {
-            dispatch(wsInitAllOrders());
+            dispatch(wsInitAllOrders(`all`));
         }
 
         return () => {
@@ -90,7 +91,7 @@ const OrderDetail: FC = () => {
     }, [dispatch]);
 
     return (
-        <section className={`${styles.container} p-5`}>
+        order ? <section className={`${styles.container} p-5`}>
             <div className={`${styles.number} mb-10 text text_type_digits-default`}>#{order?.number}</div>
             <div className={`mb-3 text text_type_main-medium`}>{order?.name}</div>
             <div className={`${styles.status} text text_type_main-small mb-15`}>{status}</div>
@@ -102,7 +103,7 @@ const OrderDetail: FC = () => {
                 <div className={`text text_type_main-default text_color_inactive`}>{time && <FormattedDate date={new Date(time)}/>}</div>
                 <div className={`${styles.totalPrice} text text_type_digits-default`}>{totalPrice} <CurrencyIcon type="primary"/></div>
             </div>
-        </section>
+        </section> : <GridLoader color="#8a37d1" />
     );
 }
 

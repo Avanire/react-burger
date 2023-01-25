@@ -12,8 +12,15 @@
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
+    min-width: 572px;
+    position: relative;
 }
 .tables {
     display: flex;
     column-gap: 32px;
+}
+.loader {
+    position: absolute;
+    left: 40%;
+    top: 150px;
 }

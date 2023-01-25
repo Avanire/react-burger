@@ -7,7 +7,9 @@ import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 const CheckDetail = () => {
     const cart = useAppSelector(state => state.burgerIngredients.constructorIngredients);
-    const ids = cart.map(item => item._id);
+    const bun = useAppSelector(state => state.burgerIngredients.constructorBun);
+    const allIngredients = bun ? [...cart, bun, bun] : [...cart];
+    const ids = allIngredients.map(item => item._id);
     const {number, orderRequest, orderFailed} = useAppSelector(state => state.checkDetails);
     const dispatch = useAppDispatch();
 
