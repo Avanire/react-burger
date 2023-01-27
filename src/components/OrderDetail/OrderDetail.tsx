@@ -7,6 +7,7 @@ import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-
 import {onClose, wsInitAllOrders} from "../../services/actions/WsActions";
 import uuid from "react-uuid";
 import {GridLoader} from "react-spinners";
+import {IWsUrl} from "../../utils/prop-types";
 
 export interface IOrderDetail {
     readonly name?: string;
@@ -26,7 +27,7 @@ const Detail: FC<IOrderDetail> = (ingredient) => {
     );
 }
 
-const OrderDetail: FC = () => {
+const OrderDetail: FC<IWsUrl> = ({wsUrl= ''}) => {
     const ingredients = useAppSelector(state => state.burgerIngredients.ingredients);
     const orders = useAppSelector(state => state.ws.orders);
     const modalOrder = useAppSelector(state => state.orderDetail.modalOrder);
@@ -80,7 +81,7 @@ const OrderDetail: FC = () => {
 
     useEffect(() => {
         if (!orders.length) {
-            dispatch(wsInitAllOrders(`all`));
+            dispatch(wsInitAllOrders(wsUrl));
         }
 
         return () => {

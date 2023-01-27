@@ -54,7 +54,7 @@ const App = () => {
                     <FeedPage/>
                 </Route>
                 <Route path={`/feed/:id`} exact>
-                    <OrderDetailPage />
+                    <OrderDetailPage wsUrl='all'/>
                 </Route>
                 <ProtectedRoute path={`/profile/orders/:id`} exact onlyAuth={true}>
                     <OrderDetailPage />

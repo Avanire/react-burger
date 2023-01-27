@@ -49,10 +49,10 @@ const ProfileOrders = () => {
                 <div className={styles.container}>
                     <ProfileMenu/>
                     {orders.length ? (<div className={`${styles.orders} custom-scroll mr-15 pr-2`}>
-                        {orders.flat().reverse().map(item => <FeedCard key={item._id}
+                        {orders.flat().reverse().map(item => item ? <FeedCard key={item._id}
                                                                        order={item}
                                                                        handleOpenModal={handleOpenModal}
-                        />)}
+                        /> : <p>Ошибка загрузки :(</p>)}
                     </div>) : <div className={styles.loader}><GridLoader color="#8a37d1"/></div>}
                 </div>
             </section>

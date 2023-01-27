@@ -160,3 +160,7 @@ export interface IFeedCard {
     order: IFeedOrders;
     readonly handleOpenModal: (order: IFeedOrders) => void;
 }
+
+export interface IWsUrl {
+    readonly wsUrl?: string;
+}
