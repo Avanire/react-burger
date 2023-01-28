@@ -10,6 +10,7 @@
     border-radius: 40px;
     min-width: 45em;
     text-align: center;
+    min-height: 15em;
 }
 
 .headers {

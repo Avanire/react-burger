@@ -1,0 +1,17 @@
+.container {
+    min-width: 280px;
+}
+.numbers {
+    overflow-y: hidden;
+    max-height: 280px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    row-gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+.ready {
+    color: #00cccc;
+}

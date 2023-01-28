@@ -28,10 +28,18 @@ export const getIngredientsRequest = () => {
 
 export const getOrderRequest = (ids: Array<string>) => {
     const body = {
-        "ingredients": ids
+        "ingredients": ids,
+    }
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getCookie('token')
+        },
+        body: JSON.stringify(body)
     }
 
-    return postRequest('orders', body);
+    return getRequest(`${API_URL}/orders`, options);
 }
 
 export const forgotPasswordRequest = (email: string) => {

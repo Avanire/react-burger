@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
-import OrderDetail from "../OrderDetails/OrderDetails";
+import OrderDetail from "../CheckDetail/CheckDetail";
 import {useDrag, useDrop} from "react-dnd";
 import {
     addIngredient,
@@ -164,7 +164,7 @@ const BurgerConstructor = () => {
                         />
                     ) : (<div className={`${burgerConstructor.skeleton_constructor} constructor-element ml-8`}>
                             <span className={`constructor-element__row`}>
-                                <span className="constructor-element__text">Выберите ингридиент</span>
+                                <span className="constructor-element__text">Выберите ингредиент</span>
                             </span>
                     </div>)}
                 </ul>

@@ -1,14 +1,16 @@
 import React, {useEffect} from 'react';
 import doneImg from '../../images/done.svg';
-import orderDetail from './OrderDetail.module.css';
-import {getOrder} from "../../services/actions/OrderDetails";
+import orderDetail from './CheckDetail.module.css';
+import {getOrder} from "../../services/actions/CheckDetail";
 import {GridLoader} from "react-spinners";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
-const OrderDetail = () => {
+const CheckDetail = () => {
     const cart = useAppSelector(state => state.burgerIngredients.constructorIngredients);
-    const ids = cart.map(item => item._id);
-    const {number, orderRequest, orderFailed} = useAppSelector(state => state.orderDetails);
+    const bun = useAppSelector(state => state.burgerIngredients.constructorBun);
+    const allIngredients = bun ? [...cart, bun, bun] : [...cart];
+    const ids = allIngredients.map(item => item._id);
+    const {number, orderRequest, orderFailed} = useAppSelector(state => state.checkDetails);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -30,4 +32,4 @@ const OrderDetail = () => {
     );
 }
 
-export default OrderDetail;
+export default CheckDetail;

@@ -8,4 +8,21 @@
 
 .container {
     display: flex;
+    height: 80vh;
+    position: relative;
+}
+
+.orders {
+    height: 716px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.loader {
+    position: absolute;
+    top: 50px;
+    left: 40vw;
 }

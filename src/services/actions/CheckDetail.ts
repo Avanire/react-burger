@@ -4,9 +4,9 @@ import {GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS} from "../../util
 import {clearIngredients} from "./BurgerIngredients";
 import {AppDispatch} from "../store";
 
-export const orderRequest = createAction<boolean>(GET_ORDER_REQUEST);
-export const orderSuccess = createAction<number>(GET_ORDER_SUCCESS);
-export const orderFailed = createAction<boolean>(GET_ORDER_FAILED);
+export const orderRequest = createAction<boolean, typeof GET_ORDER_REQUEST>(GET_ORDER_REQUEST);
+export const orderSuccess = createAction<number, typeof GET_ORDER_SUCCESS>(GET_ORDER_SUCCESS);
+export const orderFailed = createAction<boolean, typeof GET_ORDER_FAILED>(GET_ORDER_FAILED);
 
 
 export function getOrder(ids: Array<string>) {

@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from "react";
+import React, {FC, useEffect, useMemo, useRef, useState} from "react";
 import burgerIngredients from './BurgerIngredients.module.css';
 import {Counter, CurrencyIcon, Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from "../Modal/Modal";
@@ -75,22 +75,22 @@ const BurgerIngredients = () => {
         dispatch(getBurgerIngredients());
     }, [dispatch]);
 
-    const [modal, setModal] = React.useState<boolean>(false);
+    const [modal, setModal] = useState<boolean>(false);
 
-    const scrollableBlock = React.useRef<HTMLDivElement>(null);
-    const rollsTab = React.useRef<HTMLElement>(null);
-    const fillingsTab = React.useRef<HTMLElement>(null);
-    const sauceTab = React.useRef<HTMLElement>(null);
+    const scrollableBlock = useRef<HTMLDivElement>(null);
+    const rollsTab = useRef<HTMLElement>(null);
+    const fillingsTab = useRef<HTMLElement>(null);
+    const sauceTab = useRef<HTMLElement>(null);
 
-    const bun = React.useMemo(() => {
+    const bun = useMemo(() => {
         return ingredients.filter(item => item.type === 'bun');
     }, [ingredients]);
 
-    const main = React.useMemo(() => {
+    const main = useMemo(() => {
         return ingredients.filter(item => item.type === 'main');
     }, [ingredients]);
 
-    const sauce = React.useMemo(() => {
+    const sauce = useMemo(() => {
         return ingredients.filter(item => item.type === 'sauce');
     }, [ingredients]);
 

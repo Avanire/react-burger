@@ -18,7 +18,8 @@ import {IInitialStateAuth} from "../../utils/prop-types";
 const initialState: IInitialStateAuth = {
     user: {
         name: '',
-        email: ''
+        email: '',
+        token: getCookie('token')
     },
     isAuth: !!getCookie('token'),
     request: false,
@@ -49,6 +50,7 @@ export const authReducer = createReducer(initialState, builder => {
             return {
                 ...state,
                 user: {
+                    ...state.user,
                     email: action.payload.user.email,
                     name: action.payload.user.name
                 },
@@ -63,6 +65,7 @@ export const authReducer = createReducer(initialState, builder => {
             return {
                 ...state,
                 user: {
+                    ...state.user,
                     email: action.payload.user.email,
                     name: action.payload.user.name
                 },
@@ -88,9 +91,10 @@ export const authReducer = createReducer(initialState, builder => {
             return {
                 user: {
                     name: '',
-                    email: ''
+                    email: '',
+                    token: undefined
                 },
-                isAuth: !!getCookie('token'),
+                isAuth: false,
                 request: false,
                 failed: false,
                 isResetPass: false
@@ -100,6 +104,7 @@ export const authReducer = createReducer(initialState, builder => {
             return {
                 ...state,
                 user: {
+                    ...state.user,
                     email: action.payload.user.email,
                     name: action.payload.user.name
                 },
@@ -111,6 +116,7 @@ export const authReducer = createReducer(initialState, builder => {
             return {
                 ...state,
                 user: {
+                    ...state.user,
                     email: action.payload.user.email,
                     name: action.payload.user.name
                 },
