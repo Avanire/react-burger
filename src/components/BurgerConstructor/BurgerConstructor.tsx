@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerConstructor from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
-import OrderDetail from "../CheckDetail/CheckDetail";
+import CheckDetail from "../CheckDetail/CheckDetail";
 import {useDrag, useDrop} from "react-dnd";
 import {
     addIngredient,
@@ -197,7 +197,7 @@ const BurgerConstructor = () => {
                     </Button>
                 </div>
             </section>
-            {modal && <Modal onClose={handleCloseModal}><OrderDetail/></Modal>}
+            {modal && <Modal onClose={handleCloseModal}><CheckDetail/></Modal>}
         </>
     );
 
