@@ -161,7 +161,7 @@ describe('Auth reducer', () => {
         });
     });
 
-    it('should reset password succcess', function () {
+    it('should reset password success', function () {
         expect(authReducer({
             ...initialState,
             isResetPass: true
