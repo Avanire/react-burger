@@ -1,5 +1,5 @@
 {
-  "homepage": "https://avanire.github.io",
+  "homepage": "./",
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
@@ -35,7 +35,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "cypress:open": "npx cypress open"
+    "cypress:open": "npx cypress open",
+    "deploy-script": "npm run build && scp -r ./build/* skir@158.160.24.92:/home/skir/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
