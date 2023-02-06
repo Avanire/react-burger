@@ -30,6 +30,7 @@ const Card: FC<ICardProps> = ({ingredient, openModal}) => {
             onClick={() => openModal(ingredient)}
             ref={dragRef}
             to={{pathname: `/ingredients/${ingredient._id}`, state: {popUp: history.location}}}
+            data-ingredient={ingredient._id}
         >
             <span className="counter">{ingredient.count && ingredient.count > 0 ?
                 (<Counter count={ingredient.count} size="default" extraClass="m-1"/>) : null}</span>
