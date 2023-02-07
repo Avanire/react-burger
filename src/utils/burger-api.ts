@@ -30,25 +30,14 @@ export const getOrderRequest = (ids: Array<string>) => {
     const body = {
         "ingredients": ids,
     }
-    let options;
 
-    if (!!getCookie('token')) {
-        options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getCookie('token')
-            },
-            body: JSON.stringify(body)
-        }
-    } else {
-        options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        }
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getCookie('token')
+        },
+        body: JSON.stringify(body)
     }
 
     return getRequest(`${API_URL}/orders`, options);

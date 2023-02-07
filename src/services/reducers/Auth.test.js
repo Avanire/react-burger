@@ -5,9 +5,9 @@ import {
     forgotPasswordSuccess,
     getUserSuccess,
     loginSuccess,
-    logoutSuccess,
+    logoutSuccess, refreshTokenSuccess,
     registrationSuccess,
-    resetPasswordEnter,
+    resetPasswordEnter, resetPasswordSuccess,
     updateUserSuccess
 } from "../actions/Auth";
 
@@ -81,6 +81,20 @@ describe('Auth reducer', () => {
                 email: payloadUser.user.email
             },
             isAuth: true
+        });
+    });
+
+    it('should get token', function () {
+        expect(authReducer(initialState, {
+            type: refreshTokenSuccess.type,
+            payload: {
+                accessToken: 'accessToken',
+                refreshToken: 'refreshToken'
+            }
+        })).toEqual({
+            ...initialState,
+            request: false,
+            failed: false
         });
     });
 
@@ -170,6 +184,16 @@ describe('Auth reducer', () => {
         })).toEqual({
             ...initialState,
             isResetPass: false
+        });
+    });
+
+    it('should be reset password succes', function () {
+        expect(authReducer(initialState, {
+            type: resetPasswordSuccess.type
+        })).toEqual({
+            ...initialState,
+            request: false,
+            failed: false
         });
     });
 });

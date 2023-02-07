@@ -31,7 +31,6 @@ export function getOrder(ids: Array<string>) {
                 });
             }
         }).catch((e) => {
-            console.log(e.message)
             if (e.message === 'jwt expired' || e.message === 'jwt malformed') {
                 dispatch(refreshToken());
                 dispatch({
