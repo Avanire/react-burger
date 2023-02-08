@@ -27,7 +27,7 @@ const Modal: FC<TModal> = ({children, onClose}) => {
         (<>
             <ModalOverlay onClose={onClose}/>
             <section className={`${modal.modal}`}>
-                <div className={`${modal.closeIcon} pt-15 pr-10`}><CloseIcon type='primary' onClick={onClose}/></div>
+                <div className={`${modal.closeIcon} mt-15 mr-10`}><CloseIcon type='primary' onClick={onClose}/></div>
                 {children}
             </section>
         </>),

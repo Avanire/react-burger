@@ -30,6 +30,7 @@ export const getOrderRequest = (ids: Array<string>) => {
     const body = {
         "ingredients": ids,
     }
+
     const options = {
         method: 'POST',
         headers: {
